@@ -1,0 +1,167 @@
+"use client";
+
+import { useState } from "react";
+import { wedding } from "@/lib/wedding";
+
+type Status = "idle" | "submitting" | "success" | "error";
+
+export default function RsvpForm() {
+  const [status, setStatus] = useState<Status>("idle");
+  const [name, setName] = useState("");
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const data = Object.fromEntries(new FormData(form).entries());
+    setName(String(data.fullName || ""));
+    setStatus("submitting");
+
+    // ── PHASE 3 : ici on enverra les données vers /api/rsvp (Supabase)
+    //    puis on redirigera vers l'invitation personnalisée /invitation/[id].
+    //    Pour l'instant (aperçu local), on simule une confirmation réussie.
+    try {
+      await new Promise((r) => setTimeout(r, 900));
+      setStatus("success");
+      form.reset();
+    } catch {
+      setStatus("error");
+    }
+  }
+
+  if (status === "success") {
+    return (
+      <div className="mx-auto max-w-md text-center">
+        <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full border border-gold/50 text-gold-light">
+          <svg viewBox="0 0 24 24" className="h-7 w-7" fill="none" stroke="currentColor" strokeWidth="1.5">
+            <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+          </svg>
+        </div>
+        <p className="font-script text-3xl text-gold-light">Merci{name ? `, ${name.split(" ")[0]}` : ""}&nbsp;!</p>
+        <p className="mt-4 text-cream/80">
+          Votre présence est enregistrée. Votre invitation personnalisée avec
+          QR code vous sera bientôt disponible.
+        </p>
+        <button
+          onClick={() => setStatus("idle")}
+          className="btn-outline mt-8"
+          type="button"
+        >
+          Modifier ma réponse
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="mx-auto max-w-xl text-left">
+      <div className="grid gap-6 sm:grid-cols-2">
+        <Field label="Nom complet *" className="sm:col-span-2">
+          <input
+            name="fullName"
+            required
+            placeholder="Votre nom et prénom"
+            className="rsvp-input"
+          />
+        </Field>
+
+        <Field label="Téléphone">
+          <input
+            name="phone"
+            type="tel"
+            placeholder="+243 ..."
+            className="rsvp-input"
+          />
+        </Field>
+
+        <Field label="Nombre de personnes *">
+          <select name="partySize" required defaultValue="1" className="rsvp-input">
+            {[1, 2, 3, 4, 5].map((n) => (
+              <option key={n} value={n}>
+                {n} {n === 1 ? "personne" : "personnes"}
+              </option>
+            ))}
+          </select>
+        </Field>
+
+        <Field label="Boisson préférée *" className="sm:col-span-2">
+          <select name="drink" required defaultValue="" className="rsvp-input">
+            <option value="" disabled>
+              Choisissez une boisson…
+            </option>
+            {wedding.drinks.map((d) => (
+              <option key={d} value={d}>
+                {d}
+              </option>
+            ))}
+          </select>
+        </Field>
+
+        <fieldset className="sm:col-span-2">
+          <legend className="mb-3 text-xs uppercase tracking-wide-sm text-cream/70">
+            Je participerai à
+          </legend>
+          <div className="flex flex-wrap gap-4">
+            {wedding.ceremonies.map((c) => (
+              <label
+                key={c.key}
+                className="flex cursor-pointer items-center gap-3 rounded-full border border-gold/30 px-5 py-2.5 text-sm text-cream/90 transition-colors hover:border-gold/70"
+              >
+                <input
+                  type="checkbox"
+                  name="attending"
+                  value={c.key}
+                  defaultChecked
+                  className="h-4 w-4 accent-[var(--color-gold)]"
+                />
+                {c.title}
+              </label>
+            ))}
+          </div>
+        </fieldset>
+
+        <Field label="Un petit mot pour les mariés" className="sm:col-span-2">
+          <textarea
+            name="message"
+            rows={3}
+            placeholder="Vos vœux, un message… (facultatif)"
+            className="rsvp-input resize-none"
+          />
+        </Field>
+      </div>
+
+      {status === "error" && (
+        <p className="mt-4 text-sm text-red-300">
+          Une erreur est survenue. Merci de réessayer.
+        </p>
+      )}
+
+      <div className="mt-8 text-center">
+        <button type="submit" className="btn-gold" disabled={status === "submitting"}>
+          {status === "submitting" ? "Envoi en cours…" : "Confirmer ma présence"}
+        </button>
+        <p className="mt-4 text-xs text-cream/50">
+          Merci de répondre avant le {wedding.rsvpDeadlineLabel}.
+        </p>
+      </div>
+    </form>
+  );
+}
+
+function Field({
+  label,
+  children,
+  className = "",
+}: {
+  label: string;
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <label className={`flex flex-col gap-2 ${className}`}>
+      <span className="text-xs uppercase tracking-wide-sm text-cream/70">
+        {label}
+      </span>
+      {children}
+    </label>
+  );
+}

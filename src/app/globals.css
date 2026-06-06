@@ -1,0 +1,263 @@
+@import "tailwindcss";
+
+/* ─────────────────────────────────────────────
+   THÈME — Élégance africaine moderne
+   Émeraude profond · Or · Ivoire
+   ───────────────────────────────────────────── */
+@theme inline {
+  --color-ivory: #fbf7ef;
+  --color-cream: #f3ebda;
+  --color-sand: #e8dcc2;
+  --color-emerald: #0c3b2e;
+  --color-emerald-700: #14503d;
+  --color-emerald-500: #1f6b51;
+  --color-gold: #c6a14b;
+  --color-gold-light: #e0c57e;
+  --color-ink: #221e18;
+  --color-ink-soft: #5a5346;
+
+  --font-display: var(--font-display);
+  --font-sans: var(--font-sans);
+  --font-script: var(--font-script);
+
+  --color-background: var(--color-ivory);
+  --color-foreground: var(--color-ink);
+}
+
+:root {
+  --background: #fbf7ef;
+  --foreground: #221e18;
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-ivory);
+  color: var(--color-ink);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Grain subtil sur tout le site pour la profondeur */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+::selection {
+  background: var(--color-gold);
+  color: var(--color-emerald);
+}
+
+/* ── Typographie utilitaire ── */
+.font-display {
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+.font-script {
+  font-family: var(--font-script), cursive;
+}
+.tracking-luxe {
+  letter-spacing: 0.42em;
+}
+.tracking-wide-sm {
+  letter-spacing: 0.22em;
+}
+
+/* ── Filet doré décoratif ── */
+.hairline {
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--color-gold) 20%,
+    var(--color-gold) 80%,
+    transparent
+  );
+}
+
+/* Petit losange central pour séparateurs */
+.diamond::before,
+.diamond::after {
+  content: "";
+  height: 1px;
+  width: clamp(40px, 12vw, 110px);
+  background: linear-gradient(to right, transparent, var(--color-gold));
+}
+.diamond::after {
+  background: linear-gradient(to left, transparent, var(--color-gold));
+}
+
+/* ── Bouton or ── */
+.btn-gold {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 1rem 2.4rem;
+  font-family: var(--font-sans), sans-serif;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-emerald);
+  background: linear-gradient(
+    135deg,
+    var(--color-gold-light),
+    var(--color-gold)
+  );
+  border: 1px solid var(--color-gold);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 0.35s ease, filter 0.35s ease;
+  box-shadow: 0 10px 30px -12px rgba(198, 161, 75, 0.7);
+}
+.btn-gold:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 40px -14px rgba(198, 161, 75, 0.85);
+  filter: brightness(1.05);
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 1rem 2.4rem;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-gold-light);
+  border: 1px solid color-mix(in srgb, var(--color-gold) 55%, transparent);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.35s ease;
+  background: transparent;
+}
+.btn-outline:hover {
+  color: var(--color-emerald);
+  background: var(--color-gold-light);
+  border-color: var(--color-gold-light);
+}
+
+/* ── Champs de formulaire RSVP ── */
+.rsvp-input {
+  width: 100%;
+  background: color-mix(in srgb, var(--color-ivory) 7%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-gold) 30%, transparent);
+  border-radius: 0.6rem;
+  padding: 0.85rem 1rem;
+  color: var(--color-ivory);
+  font-family: var(--font-sans), sans-serif;
+  font-size: 0.95rem;
+  transition: border-color 0.3s ease, background 0.3s ease;
+}
+.rsvp-input::placeholder {
+  color: color-mix(in srgb, var(--color-ivory) 45%, transparent);
+}
+.rsvp-input:focus {
+  outline: none;
+  border-color: var(--color-gold-light);
+  background: color-mix(in srgb, var(--color-ivory) 11%, transparent);
+}
+.rsvp-input option {
+  color: var(--color-ink);
+}
+
+/* ── Animations de révélation ── */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes float-slow {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+/* État de départ pour le scroll-reveal (JS retire .pre-reveal) */
+.reveal {
+  opacity: 0;
+}
+.reveal.in-view {
+  animation: fade-up 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+.animate-float-slow {
+  animation: float-slow 7s ease-in-out infinite;
+}
+
+/* Titre or « shimmer » */
+.text-gold-shimmer {
+  background: linear-gradient(
+    100deg,
+    var(--color-gold) 20%,
+    var(--color-gold-light) 40%,
+    #fff7e3 50%,
+    var(--color-gold-light) 60%,
+    var(--color-gold) 80%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shimmer 6s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  .reveal.in-view,
+  .animate-float-slow,
+  .text-gold-shimmer {
+    animation: none !important;
+    transition: none !important;
+  }
+  .reveal {
+    opacity: 1;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}
