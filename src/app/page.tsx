@@ -46,7 +46,7 @@ function Hero() {
   return (
     <section
       id="accueil"
-      className="relative flex min-h-screen items-center justify-center overflow-hidden bg-wine px-5 text-center"
+      className="relative flex min-h-svh items-center justify-center overflow-hidden bg-wine px-5 text-center"
     >
       {/* motifs africains en filigrane + losanges flottants */}
       <MotifGrid />
@@ -56,12 +56,12 @@ function Hero() {
       <div className="pointer-events-none absolute -right-32 bottom-0 h-[28rem] w-[28rem] rounded-full bg-wine-500/30 blur-3xl" />
       {/* cadre doré décoratif + ornements d'angle */}
       <div className="pointer-events-none absolute inset-4 rounded-[2rem] border border-gold/20 sm:inset-8" />
-      <MotifCorner className="pointer-events-none absolute left-5 top-5 sm:left-9 sm:top-9" />
-      <MotifCorner className="pointer-events-none absolute right-5 top-5 -scale-x-100 sm:right-9 sm:top-9" />
-      <MotifCorner className="pointer-events-none absolute bottom-5 left-5 -scale-y-100 sm:bottom-9 sm:left-9" />
-      <MotifCorner className="pointer-events-none absolute bottom-5 right-5 -scale-100 sm:bottom-9 sm:right-9" />
+      <MotifCorner className="hidden sm:block pointer-events-none absolute left-5 top-5 sm:left-9 sm:top-9" />
+      <MotifCorner className="hidden sm:block pointer-events-none absolute right-5 top-5 -scale-x-100 sm:right-9 sm:top-9" />
+      <MotifCorner className="hidden sm:block pointer-events-none absolute bottom-5 left-5 -scale-y-100 sm:bottom-9 sm:left-9" />
+      <MotifCorner className="hidden sm:block pointer-events-none absolute bottom-5 right-5 -scale-100 sm:bottom-9 sm:right-9" />
 
-      <div className="relative z-10 mx-auto max-w-3xl py-28">
+      <div className="relative z-10 mx-auto max-w-3xl py-24 sm:py-28">
         <p className="reveal in-view font-script text-3xl text-gold-light sm:text-4xl">
           Nous nous marions
         </p>

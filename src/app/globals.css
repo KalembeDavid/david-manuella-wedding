@@ -41,6 +41,8 @@
 
 html {
   scroll-behavior: smooth;
+  /* décalage pour que les ancres ne passent pas sous la barre fixe */
+  scroll-padding-top: 5rem;
 }
 
 body {
