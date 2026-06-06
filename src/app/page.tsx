@@ -325,8 +325,8 @@ function Rsvp() {
   return (
     <section id="rsvp" className="relative bg-wine px-5 py-24 sm:py-32">
       <MotifGrid />
-      <div className="pointer-events-none absolute inset-x-6 inset-y-8 rounded-[2rem] border border-gold/15" />
-      <div className="relative mx-auto max-w-2xl">
+      <div className="pointer-events-none absolute inset-x-4 inset-y-8 rounded-[2rem] border border-gold/15 sm:inset-x-6" />
+      <div className="relative mx-auto max-w-2xl px-3 md:px-0">
         <Reveal className="text-center">
           <Eyebrow>Votre présence</Eyebrow>
           <h2 className="mt-2 font-display text-4xl text-ivory sm:text-5xl">
