@@ -67,6 +67,30 @@ body::before {
   color: var(--color-wine);
 }
 
+/* ── Curseur : flèche dorée de Cupidon ──
+   Flèche or contournée (visible sur fond clair et foncé) + cœur à l'empenne.
+   Cœur doré au survol des éléments cliquables. */
+body {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cg fill='none' stroke='%23805c0d' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 5 L26 26'/%3E%3Cpath d='M5 5 L5 14'/%3E%3Cpath d='M5 5 L14 5'/%3E%3C/g%3E%3Cg fill='none' stroke='%23e6cd86' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 5 L26 26'/%3E%3Cpath d='M5 5 L5 14'/%3E%3Cpath d='M5 5 L14 5'/%3E%3C/g%3E%3Cpath d='M30 34 C 26 30 28 25 31 27 C 34 25 36 30 32 34 Z' fill='%23c6a14b' stroke='%23805c0d' stroke-width='1'/%3E%3C/svg%3E") 5 5, auto;
+}
+
+a,
+button,
+label,
+select,
+summary,
+[role="button"],
+.btn-gold,
+.btn-outline {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='32' viewBox='0 0 36 32'%3E%3Cpath d='M18 30 C 4 20 2 9 10 6 C 14 4 18 7 18 11 C 18 7 22 4 26 6 C 34 9 32 20 18 30 Z' fill='%23c6a14b' stroke='%23805c0d' stroke-width='1.6' stroke-linejoin='round'/%3E%3C/svg%3E") 12 6, pointer;
+}
+
+input,
+textarea,
+[contenteditable="true"] {
+  cursor: text;
+}
+
 /* ── Typographie utilitaire ── */
 .font-display {
   font-family: var(--font-display), Georgia, serif;
@@ -107,6 +131,12 @@ body::before {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='16' viewBox='0 0 40 16'%3E%3Crect width='40' height='16' fill='%235e1018'/%3E%3Crect width='40' height='2' y='0' fill='%23c6a14b'/%3E%3Crect width='40' height='2' y='14' fill='%23c6a14b'/%3E%3Cpath d='M0 14 L10 3 L20 14 Z' fill='%23c6a14b'/%3E%3Cpath d='M20 14 L30 3 L40 14 Z' fill='%23e6cd86'/%3E%3Crect x='19' y='7' width='2' height='2' fill='%23e6cd86'/%3E%3C/svg%3E");
   background-repeat: repeat-x;
   background-size: auto 16px;
+  animation: kente-pan 24s linear infinite;
+}
+@keyframes kente-pan {
+  to {
+    background-position-x: 40px;
+  }
 }
 
 /* Grille géométrique (losanges) en filigrane sur les sections sombres.
@@ -119,6 +149,18 @@ body::before {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56'%3E%3Cg fill='none' stroke='%23c6a14b' stroke-width='1.2'%3E%3Cpath d='M28 2 L54 28 L28 54 L2 28 Z'/%3E%3Cpath d='M28 16 L40 28 L28 40 L16 28 Z'/%3E%3C/g%3E%3Ccircle cx='28' cy='28' r='1.6' fill='%23c6a14b'/%3E%3C/svg%3E");
   background-size: 56px 56px;
   animation: drift 45s linear infinite;
+}
+
+/* Motif "mudcloth" vectoriel — INSPIRÉ des images de référence
+   (zigzags, losanges, croix, points). Texture des sections claires. */
+.motif-mudcloth {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.06;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='%23c6a14b' stroke-width='1.2'%3E%3Cpath d='M0 12 L8 6 L16 12 L24 6 L32 12 L40 6 L48 12 L56 6 L64 12'/%3E%3Cpath d='M16 34 L24 28 L32 34 L24 40 Z'/%3E%3Cpath d='M0 34 L8 28 M0 34 L8 40'/%3E%3Cpath d='M64 34 L56 28 M64 34 L56 40'/%3E%3Cpath d='M8 50 L8 58 M4 54 L12 54'/%3E%3Cpath d='M40 50 L40 58 M36 54 L44 54'/%3E%3Cpath d='M52 48 L60 56 M60 48 L52 56'/%3E%3C/g%3E%3Cg fill='%23c6a14b'%3E%3Ccircle cx='32' cy='54' r='1.4'/%3E%3Ccircle cx='24' cy='12' r='1'/%3E%3Ccircle cx='0' cy='54' r='1.4'/%3E%3Ccircle cx='64' cy='54' r='1.4'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 64px 64px;
+  animation: drift 60s linear infinite reverse;
 }
 
 /* ── Boutons ── */
@@ -153,6 +195,51 @@ body::before {
 }
 .btn-gold:active {
   transform: translateY(-1px) scale(0.98);
+}
+/* Reflet lumineux qui balaie le bouton au survol */
+.btn-gold {
+  position: relative;
+  overflow: hidden;
+}
+.btn-gold::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255, 248, 230, 0.55),
+    transparent
+  );
+  transform: skewX(-20deg);
+  transition: left 0.7s var(--ease-out-expo);
+  pointer-events: none;
+}
+.btn-gold:hover::before {
+  left: 130%;
+}
+
+/* Lien de navigation : soulignement doré animé */
+.nav-link {
+  position: relative;
+}
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  height: 1px;
+  width: 100%;
+  background: var(--color-gold-light);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s var(--ease-out-expo);
+}
+.nav-link:hover::after {
+  transform: scaleX(1);
 }
 
 .btn-outline {

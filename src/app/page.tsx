@@ -8,7 +8,8 @@ import {
   KenteBand,
   MotifGrid,
   MotifCorner,
-  TextureOverlay,
+  MotifMudcloth,
+  FloatingAccents,
 } from "@/components/Motifs";
 
 export default function Home() {
@@ -47,12 +48,9 @@ function Hero() {
       id="accueil"
       className="relative flex min-h-screen items-center justify-center overflow-hidden bg-wine px-5 text-center"
     >
-      {/* motifs africains en filigrane (texture + grille géométrique) */}
-      <TextureOverlay
-        src="/motifs/masks-border.webp"
-        className="opacity-[0.05] mix-blend-soft-light"
-      />
+      {/* motifs africains en filigrane + losanges flottants */}
       <MotifGrid />
+      <FloatingAccents />
       {/* halos dorés en fond */}
       <div className="pointer-events-none absolute -left-40 top-10 h-96 w-96 rounded-full bg-gold/10 blur-3xl" />
       <div className="pointer-events-none absolute -right-32 bottom-0 h-[28rem] w-[28rem] rounded-full bg-wine-500/30 blur-3xl" />
@@ -132,10 +130,7 @@ function Hero() {
 function Invitation() {
   return (
     <section id="invitation" className="relative overflow-hidden bg-ivory px-5 py-24 sm:py-32">
-      <TextureOverlay
-        src="/motifs/tribal-pattern.jpg"
-        className="opacity-[0.05] mix-blend-multiply"
-      />
+      <MotifMudcloth />
       <div className="relative z-10 mx-auto max-w-3xl text-center">
         <Reveal>
           <Eyebrow>Avec joie</Eyebrow>
@@ -177,10 +172,7 @@ function Couple() {
   ];
   return (
     <section id="couple" className="relative overflow-hidden bg-cream px-5 py-24 sm:py-32">
-      <TextureOverlay
-        src="/motifs/geometric-symbols.avif"
-        className="opacity-[0.06] mix-blend-multiply"
-      />
+      <MotifMudcloth />
       <div className="relative z-10 mx-auto max-w-5xl">
         <Reveal className="text-center">
           <Eyebrow>Les futurs époux</Eyebrow>
@@ -292,10 +284,7 @@ function Row({ label, children }: { label: string; children: React.ReactNode }) 
 function Gallery() {
   return (
     <section id="galerie" className="relative overflow-hidden bg-ivory px-5 py-24 sm:py-32">
-      <TextureOverlay
-        src="/motifs/pattern-ornaments.jpg"
-        className="opacity-[0.05] mix-blend-multiply"
-      />
+      <MotifMudcloth />
       <div className="relative z-10 mx-auto max-w-5xl">
         <Reveal className="text-center">
           <Eyebrow>Souvenirs</Eyebrow>

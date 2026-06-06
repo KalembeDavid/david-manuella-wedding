@@ -43,23 +43,53 @@ export function MotifGrid() {
 }
 
 /**
- * Texture d'arrière-plan à partir d'une vraie image de motif africain.
- * À placer en premier enfant d'une section `relative overflow-hidden`,
- * avec le contenu en `relative z-10` au-dessus.
+ * Texture "mudcloth" vectorielle — INSPIRÉE des images de référence
+ * (zigzags, losanges, croix, points), sans utiliser les images directement.
+ * À placer dans une section `relative overflow-hidden`, contenu en z-10.
  */
-export function TextureOverlay({
-  src,
-  className = "",
-}: {
-  src: string;
-  className?: string;
-}) {
+export function MotifMudcloth() {
+  return <div aria-hidden className="motif-mudcloth" />;
+}
+
+/** Petits losanges dorés qui flottent doucement (couche de "délice"). */
+export function FloatingAccents() {
+  const items: {
+    top?: string;
+    left?: string;
+    right?: string;
+    bottom?: string;
+    size: number;
+    delay: number;
+    dur: number;
+  }[] = [
+    { top: "16%", left: "10%", size: 14, delay: 0, dur: 7 },
+    { top: "28%", right: "12%", size: 10, delay: 1.2, dur: 8.5 },
+    { top: "66%", left: "16%", size: 8, delay: 0.6, dur: 6.5 },
+    { bottom: "14%", right: "18%", size: 12, delay: 1.8, dur: 7.8 },
+    { top: "46%", left: "44%", size: 6, delay: 0.9, dur: 9.2 },
+    { bottom: "24%", left: "30%", size: 9, delay: 2.4, dur: 8 },
+  ];
   return (
-    <div
-      aria-hidden
-      className={`pointer-events-none absolute inset-0 bg-cover bg-center ${className}`}
-      style={{ backgroundImage: `url(${src})` }}
-    />
+    <>
+      {items.map((it, i) => (
+        <span
+          key={i}
+          aria-hidden
+          className="pointer-events-none absolute block animate-float-slow bg-gold/25"
+          style={{
+            top: it.top,
+            left: it.left,
+            right: it.right,
+            bottom: it.bottom,
+            width: it.size,
+            height: it.size,
+            rotate: "45deg",
+            animationDelay: `${it.delay}s`,
+            animationDuration: `${it.dur}s`,
+          }}
+        />
+      ))}
+    </>
   );
 }
 
