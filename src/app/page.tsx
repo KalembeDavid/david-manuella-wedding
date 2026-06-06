@@ -8,6 +8,7 @@ import {
   KenteBand,
   MotifGrid,
   MotifCorner,
+  TextureOverlay,
 } from "@/components/Motifs";
 
 export default function Home() {
@@ -46,7 +47,11 @@ function Hero() {
       id="accueil"
       className="relative flex min-h-screen items-center justify-center overflow-hidden bg-wine px-5 text-center"
     >
-      {/* motif géométrique africain en filigrane */}
+      {/* motifs africains en filigrane (texture + grille géométrique) */}
+      <TextureOverlay
+        src="/motifs/masks-border.webp"
+        className="opacity-[0.05] mix-blend-soft-light"
+      />
       <MotifGrid />
       {/* halos dorés en fond */}
       <div className="pointer-events-none absolute -left-40 top-10 h-96 w-96 rounded-full bg-gold/10 blur-3xl" />
@@ -126,8 +131,12 @@ function Hero() {
 /* ─────────────────────────── INVITATION ─────────────────────────── */
 function Invitation() {
   return (
-    <section id="invitation" className="bg-ivory px-5 py-24 sm:py-32">
-      <div className="mx-auto max-w-3xl text-center">
+    <section id="invitation" className="relative overflow-hidden bg-ivory px-5 py-24 sm:py-32">
+      <TextureOverlay
+        src="/motifs/tribal-pattern.jpg"
+        className="opacity-[0.05] mix-blend-multiply"
+      />
+      <div className="relative z-10 mx-auto max-w-3xl text-center">
         <Reveal>
           <Eyebrow>Avec joie</Eyebrow>
           <Diamond />
@@ -167,8 +176,12 @@ function Couple() {
     { name: wedding.bride.firstName, family: wedding.bride.family },
   ];
   return (
-    <section id="couple" className="bg-cream px-5 py-24 sm:py-32">
-      <div className="mx-auto max-w-5xl">
+    <section id="couple" className="relative overflow-hidden bg-cream px-5 py-24 sm:py-32">
+      <TextureOverlay
+        src="/motifs/geometric-symbols.avif"
+        className="opacity-[0.06] mix-blend-multiply"
+      />
+      <div className="relative z-10 mx-auto max-w-5xl">
         <Reveal className="text-center">
           <Eyebrow>Les futurs époux</Eyebrow>
           <h2 className="mt-2 font-display text-4xl text-wine sm:text-5xl">
@@ -278,8 +291,12 @@ function Row({ label, children }: { label: string; children: React.ReactNode }) 
 /* ───────────────────────────── GALERIE ───────────────────────────── */
 function Gallery() {
   return (
-    <section id="galerie" className="bg-ivory px-5 py-24 sm:py-32">
-      <div className="mx-auto max-w-5xl">
+    <section id="galerie" className="relative overflow-hidden bg-ivory px-5 py-24 sm:py-32">
+      <TextureOverlay
+        src="/motifs/pattern-ornaments.jpg"
+        className="opacity-[0.05] mix-blend-multiply"
+      />
+      <div className="relative z-10 mx-auto max-w-5xl">
         <Reveal className="text-center">
           <Eyebrow>Souvenirs</Eyebrow>
           <h2 className="mt-2 font-display text-4xl text-wine sm:text-5xl">

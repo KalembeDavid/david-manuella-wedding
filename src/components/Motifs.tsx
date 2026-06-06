@@ -42,6 +42,27 @@ export function MotifGrid() {
   return <div aria-hidden className="motif-grid" />;
 }
 
+/**
+ * Texture d'arrière-plan à partir d'une vraie image de motif africain.
+ * À placer en premier enfant d'une section `relative overflow-hidden`,
+ * avec le contenu en `relative z-10` au-dessus.
+ */
+export function TextureOverlay({
+  src,
+  className = "",
+}: {
+  src: string;
+  className?: string;
+}) {
+  return (
+    <div
+      aria-hidden
+      className={`pointer-events-none absolute inset-0 bg-cover bg-center ${className}`}
+      style={{ backgroundImage: `url(${src})` }}
+    />
+  );
+}
+
 /** Ornement d'angle en losanges, pour encadrer une section. */
 export function MotifCorner({ className = "" }: { className?: string }) {
   return (
