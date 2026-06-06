@@ -39,6 +39,9 @@ yarn-error.log*
 # claude code (skills, local settings — non nécessaires au déploiement)
 .claude/
 
+# captures d'écran déposées à la racine (ex. partages WhatsApp)
+/WhatsApp Image*
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
