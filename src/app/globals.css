@@ -1,20 +1,20 @@
 @import "tailwindcss";
 
 /* ─────────────────────────────────────────────
-   THÈME — Élégance africaine moderne
-   Émeraude profond · Or · Ivoire
+   THÈME — Élégance africaine traditionnelle
+   Rouge profond · Or · Ivoire
    ───────────────────────────────────────────── */
 @theme inline {
-  --color-ivory: #fbf7ef;
-  --color-cream: #f3ebda;
-  --color-sand: #e8dcc2;
-  --color-emerald: #0c3b2e;
-  --color-emerald-700: #14503d;
-  --color-emerald-500: #1f6b51;
+  --color-ivory: #fbf5ec;
+  --color-cream: #f3e7d2;
+  --color-sand: #e7d3b0;
+  --color-wine: #5e1018;
+  --color-wine-700: #7a1722;
+  --color-wine-500: #a8202c;
   --color-gold: #c6a14b;
-  --color-gold-light: #e0c57e;
-  --color-ink: #221e18;
-  --color-ink-soft: #5a5346;
+  --color-gold-light: #e6cd86;
+  --color-ink: #2a1715;
+  --color-ink-soft: #6b5347;
 
   --font-display: var(--font-display);
   --font-sans: var(--font-sans);
@@ -25,8 +25,13 @@
 }
 
 :root {
-  --background: #fbf7ef;
-  --foreground: #221e18;
+  --background: #fbf5ec;
+  --foreground: #2a1715;
+
+  /* Courbes d'animation (recommandées par impeccable) */
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 * {
@@ -53,13 +58,13 @@ body::before {
   inset: 0;
   z-index: 9999;
   pointer-events: none;
-  opacity: 0.035;
+  opacity: 0.04;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 ::selection {
   background: var(--color-gold);
-  color: var(--color-emerald);
+  color: var(--color-wine);
 }
 
 /* ── Typographie utilitaire ── */
@@ -90,19 +95,33 @@ body::before {
   );
 }
 
-/* Petit losange central pour séparateurs */
-.diamond::before,
-.diamond::after {
-  content: "";
-  height: 1px;
-  width: clamp(40px, 12vw, 110px);
-  background: linear-gradient(to right, transparent, var(--color-gold));
-}
-.diamond::after {
-  background: linear-gradient(to left, transparent, var(--color-gold));
+/* ─────────────────────────────────────────────
+   MOTIFS AFRICAINS
+   ───────────────────────────────────────────── */
+
+/* Bande "kente" : frise de triangles or/rouge, répétée horizontalement.
+   Sert d'accent en haut du site et de séparateur entre les sections. */
+.kente-band {
+  height: 16px;
+  width: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='16' viewBox='0 0 40 16'%3E%3Crect width='40' height='16' fill='%235e1018'/%3E%3Crect width='40' height='2' y='0' fill='%23c6a14b'/%3E%3Crect width='40' height='2' y='14' fill='%23c6a14b'/%3E%3Cpath d='M0 14 L10 3 L20 14 Z' fill='%23c6a14b'/%3E%3Cpath d='M20 14 L30 3 L40 14 Z' fill='%23e6cd86'/%3E%3Crect x='19' y='7' width='2' height='2' fill='%23e6cd86'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-size: auto 16px;
 }
 
-/* ── Bouton or ── */
+/* Grille géométrique (losanges) en filigrane sur les sections sombres.
+   Dérive lentement pour donner vie à l'arrière-plan. */
+.motif-grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.07;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56'%3E%3Cg fill='none' stroke='%23c6a14b' stroke-width='1.2'%3E%3Cpath d='M28 2 L54 28 L28 54 L2 28 Z'/%3E%3Cpath d='M28 16 L40 28 L28 40 L16 28 Z'/%3E%3C/g%3E%3Ccircle cx='28' cy='28' r='1.6' fill='%23c6a14b'/%3E%3C/svg%3E");
+  background-size: 56px 56px;
+  animation: drift 45s linear infinite;
+}
+
+/* ── Boutons ── */
 .btn-gold {
   display: inline-flex;
   align-items: center;
@@ -114,7 +133,7 @@ body::before {
   font-weight: 500;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--color-emerald);
+  color: var(--color-wine);
   background: linear-gradient(
     135deg,
     var(--color-gold-light),
@@ -123,14 +142,17 @@ body::before {
   border: 1px solid var(--color-gold);
   border-radius: 999px;
   cursor: pointer;
-  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
-    box-shadow 0.35s ease, filter 0.35s ease;
+  transition: transform 0.4s var(--ease-out-expo),
+    box-shadow 0.4s var(--ease-out-quart), filter 0.3s ease;
   box-shadow: 0 10px 30px -12px rgba(198, 161, 75, 0.7);
 }
 .btn-gold:hover {
   transform: translateY(-3px);
-  box-shadow: 0 18px 40px -14px rgba(198, 161, 75, 0.85);
+  box-shadow: 0 18px 40px -14px rgba(198, 161, 75, 0.9);
   filter: brightness(1.05);
+}
+.btn-gold:active {
+  transform: translateY(-1px) scale(0.98);
 }
 
 .btn-outline {
@@ -147,13 +169,18 @@ body::before {
   border: 1px solid color-mix(in srgb, var(--color-gold) 55%, transparent);
   border-radius: 999px;
   cursor: pointer;
-  transition: all 0.35s ease;
+  transition: color 0.35s ease, background 0.35s ease, border-color 0.35s ease,
+    transform 0.4s var(--ease-out-expo);
   background: transparent;
 }
 .btn-outline:hover {
-  color: var(--color-emerald);
+  color: var(--color-wine);
   background: var(--color-gold-light);
   border-color: var(--color-gold-light);
+  transform: translateY(-2px);
+}
+.btn-outline:active {
+  transform: translateY(0) scale(0.98);
 }
 
 /* ── Champs de formulaire RSVP ── */
@@ -166,7 +193,8 @@ body::before {
   color: var(--color-ivory);
   font-family: var(--font-sans), sans-serif;
   font-size: 0.95rem;
-  transition: border-color 0.3s ease, background 0.3s ease;
+  transition: border-color 0.3s ease, background 0.3s ease,
+    box-shadow 0.3s ease;
 }
 .rsvp-input::placeholder {
   color: color-mix(in srgb, var(--color-ivory) 45%, transparent);
@@ -175,16 +203,19 @@ body::before {
   outline: none;
   border-color: var(--color-gold-light);
   background: color-mix(in srgb, var(--color-ivory) 11%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-gold) 22%, transparent);
 }
 .rsvp-input option {
   color: var(--color-ink);
 }
 
-/* ── Animations de révélation ── */
+/* ─────────────────────────────────────────────
+   ANIMATIONS
+   ───────────────────────────────────────────── */
 @keyframes fade-up {
   from {
     opacity: 0;
-    transform: translateY(28px);
+    transform: translateY(30px);
   }
   to {
     opacity: 1;
@@ -216,17 +247,33 @@ body::before {
     background-position: 200% center;
   }
 }
+@keyframes drift {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 56px 56px;
+  }
+}
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
 
-/* État de départ pour le scroll-reveal (JS retire .pre-reveal) */
+/* Révélation au scroll (le JS ajoute .in-view) */
 .reveal {
   opacity: 0;
 }
 .reveal.in-view {
-  animation: fade-up 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  animation: fade-up 0.85s var(--ease-out-expo) forwards;
 }
 
 .animate-float-slow {
   animation: float-slow 7s ease-in-out infinite;
+}
+.animate-spin-slow {
+  animation: spin-slow 60s linear infinite;
 }
 
 /* Titre or « shimmer » */
@@ -248,11 +295,11 @@ body::before {
 
 @media (prefers-reduced-motion: reduce) {
   *,
-  .reveal.in-view,
-  .animate-float-slow,
-  .text-gold-shimmer {
-    animation: none !important;
-    transition: none !important;
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
   .reveal {
     opacity: 1;

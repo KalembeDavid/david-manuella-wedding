@@ -7,24 +7,50 @@ type Status = "idle" | "submitting" | "success" | "error";
 
 export default function RsvpForm() {
   const [status, setStatus] = useState<Status>("idle");
+  const [errorMsg, setErrorMsg] = useState("");
   const [name, setName] = useState("");
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.currentTarget;
-    const data = Object.fromEntries(new FormData(form).entries());
-    setName(String(data.fullName || ""));
+    const fd = new FormData(form);
+    const payload = {
+      fullName: fd.get("fullName"),
+      phone: fd.get("phone"),
+      partySize: fd.get("partySize"),
+      drink: fd.get("drink"),
+      attending: fd.getAll("attending"),
+      message: fd.get("message"),
+    };
+    setName(String(payload.fullName || ""));
     setStatus("submitting");
+    setErrorMsg("");
 
-    // ── PHASE 3 : ici on enverra les données vers /api/rsvp (Supabase)
-    //    puis on redirigera vers l'invitation personnalisée /invitation/[id].
-    //    Pour l'instant (aperçu local), on simule une confirmation réussie.
     try {
-      await new Promise((r) => setTimeout(r, 900));
-      setStatus("success");
-      form.reset();
-    } catch {
+      const res = await fetch("/api/rsvp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      // Base de données pas encore branchée → confirmation gracieuse
+      if (res.status === 503) {
+        setStatus("success");
+        return;
+      }
+
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && data.id) {
+        // Redirection vers l'invitation personnalisée (avec QR code)
+        window.location.href = `/invitation/${data.id}`;
+        return;
+      }
+      throw new Error(data.error || "Enregistrement impossible.");
+    } catch (err) {
       setStatus("error");
+      setErrorMsg(
+        err instanceof Error ? err.message : "Une erreur est survenue."
+      );
     }
   }
 
@@ -36,10 +62,12 @@ export default function RsvpForm() {
             <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" />
           </svg>
         </div>
-        <p className="font-script text-3xl text-gold-light">Merci{name ? `, ${name.split(" ")[0]}` : ""}&nbsp;!</p>
+        <p className="font-script text-3xl text-gold-light">
+          Merci{name ? `, ${name.split(" ")[0]}` : ""}&nbsp;!
+        </p>
         <p className="mt-4 text-cream/80">
-          Votre présence est enregistrée. Votre invitation personnalisée avec
-          QR code vous sera bientôt disponible.
+          Votre présence est bien notée. Nous avons hâte de célébrer ce jour
+          avec vous.
         </p>
         <button
           onClick={() => setStatus("idle")}
@@ -130,9 +158,7 @@ export default function RsvpForm() {
       </div>
 
       {status === "error" && (
-        <p className="mt-4 text-sm text-red-300">
-          Une erreur est survenue. Merci de réessayer.
-        </p>
+        <p className="mt-4 text-center text-sm text-red-300">{errorMsg}</p>
       )}
 
       <div className="mt-8 text-center">

@@ -3,29 +3,34 @@ import Countdown from "@/components/Countdown";
 import RsvpForm from "@/components/RsvpForm";
 import Reveal from "@/components/Reveal";
 import { wedding, monogram, mapsUrl } from "@/lib/wedding";
+import {
+  MotifDivider,
+  KenteBand,
+  MotifGrid,
+  MotifCorner,
+} from "@/components/Motifs";
 
 export default function Home() {
   return (
     <main>
       <Nav />
       <Hero />
+      <KenteBand />
       <Invitation />
       <Couple />
+      <KenteBand />
       <Ceremonies />
       <Gallery />
+      <KenteBand />
       <Rsvp />
       <Footer />
     </main>
   );
 }
 
-/* ───────────────── Petit séparateur losange doré ───────────────── */
+/* Séparateur = motif africain doré (losange + zigzags) */
 function Diamond() {
-  return (
-    <div className="diamond my-7 flex items-center justify-center">
-      <span className="mx-4 inline-block h-2 w-2 rotate-45 bg-gold" />
-    </div>
-  );
+  return <MotifDivider />;
 }
 
 function Eyebrow({ children }: { children: React.ReactNode }) {
@@ -39,13 +44,19 @@ function Hero() {
   return (
     <section
       id="accueil"
-      className="relative flex min-h-screen items-center justify-center overflow-hidden bg-emerald px-5 text-center"
+      className="relative flex min-h-screen items-center justify-center overflow-hidden bg-wine px-5 text-center"
     >
+      {/* motif géométrique africain en filigrane */}
+      <MotifGrid />
       {/* halos dorés en fond */}
       <div className="pointer-events-none absolute -left-40 top-10 h-96 w-96 rounded-full bg-gold/10 blur-3xl" />
-      <div className="pointer-events-none absolute -right-32 bottom-0 h-[28rem] w-[28rem] rounded-full bg-emerald-500/30 blur-3xl" />
-      {/* cadre doré décoratif */}
+      <div className="pointer-events-none absolute -right-32 bottom-0 h-[28rem] w-[28rem] rounded-full bg-wine-500/30 blur-3xl" />
+      {/* cadre doré décoratif + ornements d'angle */}
       <div className="pointer-events-none absolute inset-4 rounded-[2rem] border border-gold/20 sm:inset-8" />
+      <MotifCorner className="pointer-events-none absolute left-5 top-5 sm:left-9 sm:top-9" />
+      <MotifCorner className="pointer-events-none absolute right-5 top-5 -scale-x-100 sm:right-9 sm:top-9" />
+      <MotifCorner className="pointer-events-none absolute bottom-5 left-5 -scale-y-100 sm:bottom-9 sm:left-9" />
+      <MotifCorner className="pointer-events-none absolute bottom-5 right-5 -scale-100 sm:bottom-9 sm:right-9" />
 
       <div className="relative z-10 mx-auto max-w-3xl py-28">
         <p className="reveal in-view font-script text-3xl text-gold-light sm:text-4xl">
@@ -135,12 +146,12 @@ function Invitation() {
         <Reveal delay={200}>
           <p className="mx-auto mt-10 max-w-2xl font-display text-2xl leading-relaxed text-ink sm:text-3xl">
             {wedding.invitationLead}{" "}
-            <span className="text-emerald">{wedding.invitationBody}</span>
+            <span className="text-wine">{wedding.invitationBody}</span>
           </p>
         </Reveal>
 
         <Reveal delay={300}>
-          <p className="mt-10 font-script text-5xl text-emerald sm:text-6xl">
+          <p className="mt-10 font-script text-5xl text-wine sm:text-6xl">
             {wedding.groom.firstName} &amp; {wedding.bride.firstName}
           </p>
         </Reveal>
@@ -160,7 +171,7 @@ function Couple() {
       <div className="mx-auto max-w-5xl">
         <Reveal className="text-center">
           <Eyebrow>Les futurs époux</Eyebrow>
-          <h2 className="mt-2 font-display text-4xl text-emerald sm:text-5xl">
+          <h2 className="mt-2 font-display text-4xl text-wine sm:text-5xl">
             Notre histoire commence
           </h2>
           <Diamond />
@@ -170,19 +181,19 @@ function Couple() {
           {portraits.map((p, i) => (
             <Reveal key={p.name} delay={i * 150} className="text-center">
               {/* Cadre photo — remplacer par une vraie image plus tard */}
-              <div className="group relative mx-auto aspect-[4/5] w-full max-w-xs overflow-hidden rounded-t-full border border-gold/40 bg-gradient-to-b from-emerald-500/15 to-emerald/10">
+              <div className="group relative mx-auto aspect-[4/5] w-full max-w-xs overflow-hidden rounded-t-full border border-gold/40 bg-gradient-to-b from-wine-500/15 to-wine/10">
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="font-display text-8xl text-emerald/25">
+                  <span className="font-display text-8xl text-wine/25">
                     {p.name[0]}
                   </span>
                 </div>
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-emerald/15 to-transparent py-4">
-                  <span className="text-[0.65rem] uppercase tracking-wide-sm text-emerald/50">
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-wine/15 to-transparent py-4">
+                  <span className="text-[0.65rem] uppercase tracking-wide-sm text-wine/50">
                     Photo à venir
                   </span>
                 </div>
               </div>
-              <h3 className="mt-6 font-display text-3xl text-emerald">{p.name}</h3>
+              <h3 className="mt-6 font-display text-3xl text-wine">{p.name}</h3>
               <p className="mt-1 text-xs uppercase tracking-wide-sm text-ink-soft">
                 {p.family}
               </p>
@@ -197,7 +208,8 @@ function Couple() {
 /* ──────────────────────────── CÉRÉMONIES ──────────────────────────── */
 function Ceremonies() {
   return (
-    <section id="ceremonies" className="relative bg-emerald px-5 py-24 sm:py-32">
+    <section id="ceremonies" className="relative bg-wine px-5 py-24 sm:py-32">
+      <MotifGrid />
       <div className="pointer-events-none absolute inset-0 opacity-[0.06]">
         <div className="absolute right-10 top-10 h-72 w-72 rounded-full border border-gold" />
         <div className="absolute left-10 bottom-10 h-52 w-52 rounded-full border border-gold" />
@@ -218,7 +230,7 @@ function Ceremonies() {
         <div className="mt-10 grid gap-8 md:grid-cols-2">
           {wedding.ceremonies.map((c, i) => (
             <Reveal key={c.key} delay={i * 150}>
-              <article className="flex h-full flex-col rounded-2xl border border-gold/25 bg-emerald-700/40 p-8 text-center backdrop-blur-sm transition-transform duration-500 hover:-translate-y-1.5 hover:border-gold/50">
+              <article className="flex h-full flex-col rounded-2xl border border-gold/25 bg-wine-700/40 p-8 text-center backdrop-blur-sm transition-transform duration-500 hover:-translate-y-1.5 hover:border-gold/50">
                 <span className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full border border-gold/40 text-gold-light">
                   {c.key === "civil" ? <RingsIcon /> : <HeartIcon />}
                 </span>
@@ -270,7 +282,7 @@ function Gallery() {
       <div className="mx-auto max-w-5xl">
         <Reveal className="text-center">
           <Eyebrow>Souvenirs</Eyebrow>
-          <h2 className="mt-2 font-display text-4xl text-emerald sm:text-5xl">
+          <h2 className="mt-2 font-display text-4xl text-wine sm:text-5xl">
             Galerie
           </h2>
           <p className="mx-auto mt-4 max-w-md text-sm text-ink-soft">
@@ -288,7 +300,7 @@ function Gallery() {
               className={i % 5 === 0 ? "col-span-2 sm:col-span-1" : ""}
             >
               <div className="flex aspect-square items-center justify-center rounded-xl border border-gold/30 bg-gradient-to-br from-cream to-sand/60">
-                <svg viewBox="0 0 24 24" className="h-9 w-9 text-emerald/25" fill="none" stroke="currentColor" strokeWidth="1.2">
+                <svg viewBox="0 0 24 24" className="h-9 w-9 text-wine/25" fill="none" stroke="currentColor" strokeWidth="1.2">
                   <rect x="3" y="5" width="18" height="14" rx="2" />
                   <circle cx="9" cy="10" r="1.6" />
                   <path strokeLinecap="round" strokeLinejoin="round" d="m4 18 5-5 4 4 3-3 4 4" />
@@ -305,7 +317,8 @@ function Gallery() {
 /* ────────────────────────────── RSVP ────────────────────────────── */
 function Rsvp() {
   return (
-    <section id="rsvp" className="relative bg-emerald px-5 py-24 sm:py-32">
+    <section id="rsvp" className="relative bg-wine px-5 py-24 sm:py-32">
+      <MotifGrid />
       <div className="pointer-events-none absolute inset-x-6 inset-y-8 rounded-[2rem] border border-gold/15" />
       <div className="relative mx-auto max-w-2xl">
         <Reveal className="text-center">
