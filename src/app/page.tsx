@@ -55,7 +55,7 @@ function Hero() {
       <div className="pointer-events-none absolute -left-40 top-10 h-96 w-96 rounded-full bg-gold/10 blur-3xl" />
       <div className="pointer-events-none absolute -right-32 bottom-0 h-[28rem] w-[28rem] rounded-full bg-wine-500/30 blur-3xl" />
       {/* cadre doré décoratif + ornements d'angle */}
-      <div className="pointer-events-none absolute inset-4 rounded-[2rem] border border-gold/20 sm:inset-8" />
+      <div className="pointer-events-none absolute inset-4 hidden rounded-[2rem] border border-gold/20 sm:block sm:inset-8" />
       <MotifCorner className="hidden sm:block pointer-events-none absolute left-5 top-5 sm:left-9 sm:top-9" />
       <MotifCorner className="hidden sm:block pointer-events-none absolute right-5 top-5 -scale-x-100 sm:right-9 sm:top-9" />
       <MotifCorner className="hidden sm:block pointer-events-none absolute bottom-5 left-5 -scale-y-100 sm:bottom-9 sm:left-9" />
