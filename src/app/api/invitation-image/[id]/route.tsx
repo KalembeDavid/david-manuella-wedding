@@ -7,8 +7,9 @@ import { wedding, monogram } from "@/lib/wedding";
 export const runtime = "nodejs";
 
 /* Palette du site (cf. globals.css) */
-const DEEP = "#1a0e05";
-const DEEP_700 = "#2c1a0b";
+const DEEP = "#4b352a";
+const DEEP_ALT = "#a77f60";
+const QR_INK = "#1a0e05";
 const ORANGE = "#ef6c14";
 const GOLD = "#d8a838";
 const GOLD_LIGHT = "#f1d684";
@@ -111,7 +112,7 @@ export async function GET(
     QRCode.toDataURL(invitationUrl, {
       margin: 1,
       width: 560,
-      color: { dark: DEEP, light: `${IVORY}ff` },
+      color: { dark: QR_INK, light: `${IVORY}ff` },
     }),
     loadGoogleFont("Cormorant Garamond", 600),
     loadGoogleFont("Parisienne", 400),
@@ -133,7 +134,8 @@ export async function GET(
           display: "flex",
           flexDirection: "column",
           backgroundColor: DEEP,
-          backgroundImage: `linear-gradient(160deg, ${DEEP_700} 0%, ${DEEP} 55%, #0d0602 100%)`,
+          // même dégradé que .bg-wax-dark du site (tan → brun wax)
+          backgroundImage: `linear-gradient(160deg, ${DEEP_ALT} 0%, ${DEEP} 55%)`,
         }}
       >
         {/* Frise kente — haut */}
