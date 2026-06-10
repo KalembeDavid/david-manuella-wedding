@@ -20,9 +20,9 @@ export const wedding = {
 
   // Date principale de la célébration (format ISO : AAAA-MM-JJTHH:MM:SS)
   // Sert au compte à rebours. Ajuste l'heure quand elle sera connue.
-  date: "2026-06-19T10:00:00",
-  dateLabel: "19 Juin 2026",
-  dayLabel: "Vendredi",
+  date: "2026-06-20T17:00:00",
+  dateLabel: "20 Juin 2026",
+  dayLabel: "Samedi",
 
   // Lieu
   city: "Kolwezi",
@@ -42,8 +42,8 @@ export const wedding = {
   ceremony: {
     title: "Mariage Coutumier",
     subtitle: "L'union de nos deux familles selon la tradition",
-    date: "19 Juin 2026",
-    time: null as string | null,
+    date: "20 Juin 2026",
+    time: "17h00" as string | null,
     venue: "Katebi",
     city: "Kolwezi",
   },

@@ -26,7 +26,7 @@ export default function Nav() {
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
         scrolled
-          ? "bg-royal/95 backdrop-blur-md shadow-[0_8px_30px_-15px_rgba(0,0,0,0.6)]"
+          ? "bg-deep/95 backdrop-blur-md shadow-[0_8px_30px_-15px_rgba(0,0,0,0.6)]"
           : "bg-transparent"
       }`}
     >
@@ -80,7 +80,7 @@ export default function Nav() {
 
       {/* Menu mobile déroulant */}
       <div
-        className={`overflow-hidden bg-royal/98 backdrop-blur-md transition-[max-height] duration-500 md:hidden ${
+        className={`overflow-hidden bg-deep/98 backdrop-blur-md transition-[max-height] duration-500 md:hidden ${
           open ? "max-h-80" : "max-h-0"
         }`}
       >

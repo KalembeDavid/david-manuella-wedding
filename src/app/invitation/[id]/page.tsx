@@ -35,14 +35,14 @@ export default async function InvitationPage({
   const qr = await QRCode.toDataURL(invitationUrl, {
     margin: 1,
     width: 460,
-    color: { dark: "#0e2f73", light: "#fbf6ecff" },
+    color: { dark: "#1a0e05", light: "#fbf6ecff" },
   });
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-royal px-5 py-16">
+    <main className="flex min-h-screen items-center justify-center bg-wax-dark px-5 py-16">
       <div className="w-full max-w-lg">
         {/* Carte invitation */}
-        <div className="relative overflow-hidden rounded-3xl border border-gold/30 bg-gradient-to-b from-royal-700/40 to-royal text-center shadow-2xl">
+        <div className="relative overflow-hidden rounded-3xl border border-gold/30 bg-gradient-to-b from-orange/20 to-deep text-center shadow-2xl">
           <KenteBand />
           <MotifGrid />
           <div className="relative p-8 sm:p-12">
@@ -100,7 +100,11 @@ export default async function InvitationPage({
           </div>
         </div>
 
-        <InvitationActions url={invitationUrl} name={guest.full_name} />
+        <InvitationActions
+          url={invitationUrl}
+          name={guest.full_name}
+          downloadUrl={`/api/invitation-image/${guest.id}?download=1`}
+        />
 
         <p className="mt-8 text-center print:hidden">
           <a

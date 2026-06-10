@@ -2,15 +2,14 @@
 
 /* ─────────────────────────────────────────────
    THÈME — Wax festif (inspiré du pagne hollandais)
-   Bleu roi · Orange · Or · Ivoire
+   Orange · Or · Ivoire · Nuit chaude
    ───────────────────────────────────────────── */
 @theme inline {
   --color-ivory: #fbf6ec;
   --color-cream: #f5ead5;
   --color-sand: #e8d4ad;
-  --color-royal: #0e2f73;
-  --color-royal-700: #173f93;
-  --color-royal-500: #2f5bc4;
+  --color-deep: #4b352a;
+  --color-deep-alt: #a77f60;
   --color-orange: #ef6c14;
   --color-orange-light: #f7943a;
   --color-gold: #d8a838;
@@ -67,7 +66,7 @@ body::before {
 
 ::selection {
   background: var(--color-gold);
-  color: var(--color-royal);
+  color: var(--color-ink);
 }
 
 /* ── Curseur : flèche dorée de Cupidon ── */
@@ -124,11 +123,16 @@ textarea,
    MOTIFS — chevrons "kente" inspirés du wax
    ───────────────────────────────────────────── */
 
-/* Frise kente : chevrons orange/or sur bleu roi, répétés. */
+/* Fond sombre des grandes sections : gradient wax #A77F60 → #4B352A */
+.bg-wax-dark {
+  background: linear-gradient(160deg, #a77f60 0%, #4b352a 100%);
+}
+
+/* Frise kente : chevrons orange/or sur fond sombre chaud, répétés. */
 .kente-band {
   height: 18px;
   width: 100%;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='18' viewBox='0 0 24 18'%3E%3Crect width='24' height='18' fill='%230e2f73'/%3E%3Cpath d='M0 17 L12 7 L24 17' fill='none' stroke='%23ef6c14' stroke-width='3'/%3E%3Cpath d='M0 12 L12 2 L24 12' fill='none' stroke='%23f1d684' stroke-width='2'/%3E%3Cpath d='M0 7 L12 -3 L24 7' fill='none' stroke='%23d8a838' stroke-width='1.6'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='18' viewBox='0 0 24 18'%3E%3Crect width='24' height='18' fill='%234b352a'/%3E%3Cpath d='M0 17 L12 7 L24 17' fill='none' stroke='%23ef6c14' stroke-width='3'/%3E%3Cpath d='M0 12 L12 2 L24 12' fill='none' stroke='%23f1d684' stroke-width='2'/%3E%3Cpath d='M0 7 L12 -3 L24 7' fill='none' stroke='%23d8a838' stroke-width='1.6'/%3E%3C/svg%3E");
   background-repeat: repeat-x;
   background-size: auto 18px;
   animation: kente-pan 24s linear infinite;
@@ -139,7 +143,7 @@ textarea,
   }
 }
 
-/* Chevrons dorés en filigrane sur les sections sombres (bleu roi). */
+/* Chevrons dorés en filigrane sur les sections sombres. */
 .motif-grid {
   position: absolute;
   inset: 0;
@@ -173,7 +177,7 @@ textarea,
   font-weight: 600;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--color-royal);
+  color: var(--color-ink);
   background: linear-gradient(
     135deg,
     var(--color-orange-light),
@@ -237,7 +241,7 @@ textarea,
   background: transparent;
 }
 .btn-outline:hover {
-  color: var(--color-royal);
+  color: var(--color-ink);
   background: var(--color-gold-light);
   border-color: var(--color-gold-light);
   transform: translateY(-2px);
