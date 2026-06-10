@@ -42,6 +42,10 @@ yarn-error.log*
 # captures d'écran déposées à la racine (ex. partages WhatsApp)
 /WhatsApp Image*
 
+# fichiers parasites (installeurs, dossiers temporaires de navigateur)
+*.exe
+/scoped_dir*/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

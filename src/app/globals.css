@@ -1,20 +1,22 @@
 @import "tailwindcss";
 
 /* ─────────────────────────────────────────────
-   THÈME — Élégance africaine traditionnelle
-   Rouge profond · Or · Ivoire
+   THÈME — Wax festif (inspiré du pagne hollandais)
+   Bleu roi · Orange · Or · Ivoire
    ───────────────────────────────────────────── */
 @theme inline {
-  --color-ivory: #fbf5ec;
-  --color-cream: #f3e7d2;
-  --color-sand: #e7d3b0;
-  --color-wine: #5e1018;
-  --color-wine-700: #7a1722;
-  --color-wine-500: #a8202c;
-  --color-gold: #c6a14b;
-  --color-gold-light: #e6cd86;
-  --color-ink: #2a1715;
-  --color-ink-soft: #6b5347;
+  --color-ivory: #fbf6ec;
+  --color-cream: #f5ead5;
+  --color-sand: #e8d4ad;
+  --color-royal: #0e2f73;
+  --color-royal-700: #173f93;
+  --color-royal-500: #2f5bc4;
+  --color-orange: #ef6c14;
+  --color-orange-light: #f7943a;
+  --color-gold: #d8a838;
+  --color-gold-light: #f1d684;
+  --color-ink: #1b1710;
+  --color-ink-soft: #5d5343;
 
   --font-display: var(--font-display);
   --font-sans: var(--font-sans);
@@ -25,8 +27,8 @@
 }
 
 :root {
-  --background: #fbf5ec;
-  --foreground: #2a1715;
+  --background: #fbf6ec;
+  --foreground: #1b1710;
 
   /* Courbes d'animation (recommandées par impeccable) */
   --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
@@ -41,7 +43,6 @@
 
 html {
   scroll-behavior: smooth;
-  /* décalage pour que les ancres ne passent pas sous la barre fixe */
   scroll-padding-top: 5rem;
 }
 
@@ -66,14 +67,12 @@ body::before {
 
 ::selection {
   background: var(--color-gold);
-  color: var(--color-wine);
+  color: var(--color-royal);
 }
 
-/* ── Curseur : flèche dorée de Cupidon ──
-   Flèche or contournée (visible sur fond clair et foncé) + cœur à l'empenne.
-   Cœur doré au survol des éléments cliquables. */
+/* ── Curseur : flèche dorée de Cupidon ── */
 body {
-  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cg fill='none' stroke='%23805c0d' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 5 L26 26'/%3E%3Cpath d='M5 5 L5 14'/%3E%3Cpath d='M5 5 L14 5'/%3E%3C/g%3E%3Cg fill='none' stroke='%23e6cd86' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 5 L26 26'/%3E%3Cpath d='M5 5 L5 14'/%3E%3Cpath d='M5 5 L14 5'/%3E%3C/g%3E%3Cpath d='M30 34 C 26 30 28 25 31 27 C 34 25 36 30 32 34 Z' fill='%23c6a14b' stroke='%23805c0d' stroke-width='1'/%3E%3C/svg%3E") 5 5, auto;
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cg fill='none' stroke='%23805c0d' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 5 L26 26'/%3E%3Cpath d='M5 5 L5 14'/%3E%3Cpath d='M5 5 L14 5'/%3E%3C/g%3E%3Cg fill='none' stroke='%23f1d684' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 5 L26 26'/%3E%3Cpath d='M5 5 L5 14'/%3E%3Cpath d='M5 5 L14 5'/%3E%3C/g%3E%3Cpath d='M30 34 C 26 30 28 25 31 27 C 34 25 36 30 32 34 Z' fill='%23ef6c14' stroke='%23805c0d' stroke-width='1'/%3E%3C/svg%3E") 5 5, auto;
 }
 
 a,
@@ -84,7 +83,7 @@ summary,
 [role="button"],
 .btn-gold,
 .btn-outline {
-  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='32' viewBox='0 0 36 32'%3E%3Cpath d='M18 30 C 4 20 2 9 10 6 C 14 4 18 7 18 11 C 18 7 22 4 26 6 C 34 9 32 20 18 30 Z' fill='%23c6a14b' stroke='%23805c0d' stroke-width='1.6' stroke-linejoin='round'/%3E%3C/svg%3E") 12 6, pointer;
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='32' viewBox='0 0 36 32'%3E%3Cpath d='M18 30 C 4 20 2 9 10 6 C 14 4 18 7 18 11 C 18 7 22 4 26 6 C 34 9 32 20 18 30 Z' fill='%23ef6c14' stroke='%23805c0d' stroke-width='1.6' stroke-linejoin='round'/%3E%3C/svg%3E") 12 6, pointer;
 }
 
 input,
@@ -122,46 +121,43 @@ textarea,
 }
 
 /* ─────────────────────────────────────────────
-   MOTIFS AFRICAINS
+   MOTIFS — chevrons "kente" inspirés du wax
    ───────────────────────────────────────────── */
 
-/* Bande "kente" : frise de triangles or/rouge, répétée horizontalement.
-   Sert d'accent en haut du site et de séparateur entre les sections. */
+/* Frise kente : chevrons orange/or sur bleu roi, répétés. */
 .kente-band {
-  height: 16px;
+  height: 18px;
   width: 100%;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='16' viewBox='0 0 40 16'%3E%3Crect width='40' height='16' fill='%235e1018'/%3E%3Crect width='40' height='2' y='0' fill='%23c6a14b'/%3E%3Crect width='40' height='2' y='14' fill='%23c6a14b'/%3E%3Cpath d='M0 14 L10 3 L20 14 Z' fill='%23c6a14b'/%3E%3Cpath d='M20 14 L30 3 L40 14 Z' fill='%23e6cd86'/%3E%3Crect x='19' y='7' width='2' height='2' fill='%23e6cd86'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='18' viewBox='0 0 24 18'%3E%3Crect width='24' height='18' fill='%230e2f73'/%3E%3Cpath d='M0 17 L12 7 L24 17' fill='none' stroke='%23ef6c14' stroke-width='3'/%3E%3Cpath d='M0 12 L12 2 L24 12' fill='none' stroke='%23f1d684' stroke-width='2'/%3E%3Cpath d='M0 7 L12 -3 L24 7' fill='none' stroke='%23d8a838' stroke-width='1.6'/%3E%3C/svg%3E");
   background-repeat: repeat-x;
-  background-size: auto 16px;
+  background-size: auto 18px;
   animation: kente-pan 24s linear infinite;
 }
 @keyframes kente-pan {
   to {
-    background-position-x: 40px;
+    background-position-x: 24px;
   }
 }
 
-/* Grille géométrique (losanges) en filigrane sur les sections sombres.
-   Dérive lentement pour donner vie à l'arrière-plan. */
+/* Chevrons dorés en filigrane sur les sections sombres (bleu roi). */
 .motif-grid {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  opacity: 0.07;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56'%3E%3Cg fill='none' stroke='%23c6a14b' stroke-width='1.2'%3E%3Cpath d='M28 2 L54 28 L28 54 L2 28 Z'/%3E%3Cpath d='M28 16 L40 28 L28 40 L16 28 Z'/%3E%3C/g%3E%3Ccircle cx='28' cy='28' r='1.6' fill='%23c6a14b'/%3E%3C/svg%3E");
-  background-size: 56px 56px;
+  opacity: 0.09;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='28' viewBox='0 0 40 28'%3E%3Cg fill='none' stroke='%23d8a838' stroke-width='1.4'%3E%3Cpath d='M0 26 L10 14 L20 26 L30 14 L40 26'/%3E%3Cpath d='M0 14 L10 2 L20 14 L30 2 L40 14'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 40px 28px;
   animation: drift 45s linear infinite;
 }
 
-/* Motif "mudcloth" vectoriel — INSPIRÉ des images de référence
-   (zigzags, losanges, croix, points). Texture des sections claires. */
+/* Chevrons or + orange en filigrane sur les sections claires. */
 .motif-mudcloth {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  opacity: 0.06;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='%23c6a14b' stroke-width='1.2'%3E%3Cpath d='M0 12 L8 6 L16 12 L24 6 L32 12 L40 6 L48 12 L56 6 L64 12'/%3E%3Cpath d='M16 34 L24 28 L32 34 L24 40 Z'/%3E%3Cpath d='M0 34 L8 28 M0 34 L8 40'/%3E%3Cpath d='M64 34 L56 28 M64 34 L56 40'/%3E%3Cpath d='M8 50 L8 58 M4 54 L12 54'/%3E%3Cpath d='M40 50 L40 58 M36 54 L44 54'/%3E%3Cpath d='M52 48 L60 56 M60 48 L52 56'/%3E%3C/g%3E%3Cg fill='%23c6a14b'%3E%3Ccircle cx='32' cy='54' r='1.4'/%3E%3Ccircle cx='24' cy='12' r='1'/%3E%3Ccircle cx='0' cy='54' r='1.4'/%3E%3Ccircle cx='64' cy='54' r='1.4'/%3E%3C/g%3E%3C/svg%3E");
-  background-size: 64px 64px;
+  opacity: 0.07;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='28' viewBox='0 0 40 28'%3E%3Cg fill='none' stroke='%23d8a838' stroke-width='1.3'%3E%3Cpath d='M0 26 L10 14 L20 26 L30 14 L40 26'/%3E%3C/g%3E%3Cg fill='none' stroke='%23ef6c14' stroke-width='1.1'%3E%3Cpath d='M0 14 L10 2 L20 14 L30 2 L40 14'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 40px 28px;
   animation: drift 60s linear infinite reverse;
 }
 
@@ -174,34 +170,32 @@ textarea,
   padding: 1rem 2.4rem;
   font-family: var(--font-sans), sans-serif;
   font-size: 0.78rem;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--color-wine);
+  color: var(--color-royal);
   background: linear-gradient(
     135deg,
-    var(--color-gold-light),
+    var(--color-orange-light),
+    var(--color-orange) 55%,
     var(--color-gold)
   );
-  border: 1px solid var(--color-gold);
+  border: 1px solid var(--color-orange);
   border-radius: 999px;
   cursor: pointer;
   transition: transform 0.4s var(--ease-out-expo),
     box-shadow 0.4s var(--ease-out-quart), filter 0.3s ease;
-  box-shadow: 0 10px 30px -12px rgba(198, 161, 75, 0.7);
+  box-shadow: 0 10px 30px -12px rgba(239, 108, 20, 0.75);
+  position: relative;
+  overflow: hidden;
 }
 .btn-gold:hover {
   transform: translateY(-3px);
-  box-shadow: 0 18px 40px -14px rgba(198, 161, 75, 0.9);
+  box-shadow: 0 18px 40px -14px rgba(239, 108, 20, 0.9);
   filter: brightness(1.05);
 }
 .btn-gold:active {
   transform: translateY(-1px) scale(0.98);
-}
-/* Reflet lumineux qui balaie le bouton au survol */
-.btn-gold {
-  position: relative;
-  overflow: hidden;
 }
 .btn-gold::before {
   content: "";
@@ -213,7 +207,7 @@ textarea,
   background: linear-gradient(
     120deg,
     transparent,
-    rgba(255, 248, 230, 0.55),
+    rgba(255, 248, 230, 0.6),
     transparent
   );
   transform: skewX(-20deg);
@@ -222,6 +216,34 @@ textarea,
 }
 .btn-gold:hover::before {
   left: 130%;
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 1rem 2.4rem;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-gold-light);
+  border: 1px solid color-mix(in srgb, var(--color-gold) 55%, transparent);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: color 0.35s ease, background 0.35s ease, border-color 0.35s ease,
+    transform 0.4s var(--ease-out-expo);
+  background: transparent;
+}
+.btn-outline:hover {
+  color: var(--color-royal);
+  background: var(--color-gold-light);
+  border-color: var(--color-gold-light);
+  transform: translateY(-2px);
+}
+.btn-outline:active {
+  transform: translateY(0) scale(0.98);
 }
 
 /* Lien de navigation : soulignement doré animé */
@@ -244,46 +266,17 @@ textarea,
   transform: scaleX(1);
 }
 
-.btn-outline {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.6rem;
-  padding: 1rem 2.4rem;
-  font-size: 0.78rem;
-  font-weight: 500;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--color-gold-light);
-  border: 1px solid color-mix(in srgb, var(--color-gold) 55%, transparent);
-  border-radius: 999px;
-  cursor: pointer;
-  transition: color 0.35s ease, background 0.35s ease, border-color 0.35s ease,
-    transform 0.4s var(--ease-out-expo);
-  background: transparent;
-}
-.btn-outline:hover {
-  color: var(--color-wine);
-  background: var(--color-gold-light);
-  border-color: var(--color-gold-light);
-  transform: translateY(-2px);
-}
-.btn-outline:active {
-  transform: translateY(0) scale(0.98);
-}
-
 /* ── Champs de formulaire RSVP ── */
 .rsvp-input {
   width: 100%;
-  background: color-mix(in srgb, var(--color-ivory) 7%, transparent);
-  border: 1px solid color-mix(in srgb, var(--color-gold) 30%, transparent);
+  background: color-mix(in srgb, var(--color-ivory) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-gold) 32%, transparent);
   border-radius: 0.6rem;
   padding: 0.85rem 1rem;
   color: var(--color-ivory);
   font-family: var(--font-sans), sans-serif;
   font-size: 0.95rem;
-  transition: border-color 0.3s ease, background 0.3s ease,
-    box-shadow 0.3s ease;
+  transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
 }
 .rsvp-input::placeholder {
   color: color-mix(in srgb, var(--color-ivory) 45%, transparent);
@@ -291,8 +284,8 @@ textarea,
 .rsvp-input:focus {
   outline: none;
   border-color: var(--color-gold-light);
-  background: color-mix(in srgb, var(--color-ivory) 11%, transparent);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-gold) 22%, transparent);
+  background: color-mix(in srgb, var(--color-ivory) 12%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-orange) 28%, transparent);
 }
 .rsvp-input option {
   color: var(--color-ink);
@@ -337,11 +330,8 @@ textarea,
   }
 }
 @keyframes drift {
-  from {
-    background-position: 0 0;
-  }
   to {
-    background-position: 56px 56px;
+    background-position: 400px 280px;
   }
 }
 @keyframes spin-slow {
@@ -350,7 +340,6 @@ textarea,
   }
 }
 
-/* Révélation au scroll (le JS ajoute .in-view) */
 .reveal {
   opacity: 0;
 }
@@ -365,7 +354,6 @@ textarea,
   animation: spin-slow 60s linear infinite;
 }
 
-/* Titre or « shimmer » */
 .text-gold-shimmer {
   background: linear-gradient(
     100deg,

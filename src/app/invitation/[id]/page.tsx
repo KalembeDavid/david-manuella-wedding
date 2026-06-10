@@ -35,19 +35,14 @@ export default async function InvitationPage({
   const qr = await QRCode.toDataURL(invitationUrl, {
     margin: 1,
     width: 460,
-    color: { dark: "#5e1018", light: "#fbf5ecff" },
+    color: { dark: "#0e2f73", light: "#fbf6ecff" },
   });
 
-  const ceremonies = [
-    guest.attending_coutumier ? "Mariage Coutumier" : null,
-    guest.attending_civil ? "Mariage Civil" : null,
-  ].filter(Boolean) as string[];
-
   return (
-    <main className="flex min-h-screen items-center justify-center bg-wine px-5 py-16">
+    <main className="flex min-h-screen items-center justify-center bg-royal px-5 py-16">
       <div className="w-full max-w-lg">
         {/* Carte invitation */}
-        <div className="relative overflow-hidden rounded-3xl border border-gold/30 bg-gradient-to-b from-wine-700/40 to-wine text-center shadow-2xl">
+        <div className="relative overflow-hidden rounded-3xl border border-gold/30 bg-gradient-to-b from-royal-700/40 to-royal text-center shadow-2xl">
           <KenteBand />
           <MotifGrid />
           <div className="relative p-8 sm:p-12">
@@ -100,10 +95,7 @@ export default async function InvitationPage({
               {guest.party_size}{" "}
               {guest.party_size > 1 ? "personnes" : "personne"}
             </Badge>
-            {guest.drink && <Badge>{guest.drink}</Badge>}
-            {ceremonies.map((c) => (
-              <Badge key={c}>{c}</Badge>
-            ))}
+            <Badge>Mariage coutumier</Badge>
           </div>
           </div>
         </div>

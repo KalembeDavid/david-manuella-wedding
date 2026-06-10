@@ -46,14 +46,14 @@ function Hero() {
   return (
     <section
       id="accueil"
-      className="relative flex min-h-svh items-center justify-center overflow-hidden bg-wine px-5 text-center"
+      className="relative flex min-h-svh items-center justify-center overflow-hidden bg-royal px-5 text-center"
     >
       {/* motifs africains en filigrane + losanges flottants */}
       <MotifGrid />
       <FloatingAccents />
       {/* halos dorés en fond */}
       <div className="pointer-events-none absolute -left-40 top-10 h-96 w-96 rounded-full bg-gold/10 blur-3xl" />
-      <div className="pointer-events-none absolute -right-32 bottom-0 h-[28rem] w-[28rem] rounded-full bg-wine-500/30 blur-3xl" />
+      <div className="pointer-events-none absolute -right-32 bottom-0 h-[28rem] w-[28rem] rounded-full bg-royal-500/30 blur-3xl" />
       {/* cadre doré décoratif + ornements d'angle */}
       <div className="pointer-events-none absolute inset-4 hidden rounded-[2rem] border border-gold/20 sm:block sm:inset-8" />
       <MotifCorner className="hidden sm:block pointer-events-none absolute left-5 top-5 sm:left-9 sm:top-9" />
@@ -150,12 +150,12 @@ function Invitation() {
         <Reveal delay={200}>
           <p className="mx-auto mt-10 max-w-2xl font-display text-2xl leading-relaxed text-ink sm:text-3xl">
             {wedding.invitationLead}{" "}
-            <span className="text-wine">{wedding.invitationBody}</span>
+            <span className="text-royal">{wedding.invitationBody}</span>
           </p>
         </Reveal>
 
         <Reveal delay={300}>
-          <p className="mt-10 font-script text-5xl text-wine sm:text-6xl">
+          <p className="mt-10 font-script text-5xl text-royal sm:text-6xl">
             {wedding.groom.firstName} &amp; {wedding.bride.firstName}
           </p>
         </Reveal>
@@ -176,7 +176,7 @@ function Couple() {
       <div className="relative z-10 mx-auto max-w-5xl">
         <Reveal className="text-center">
           <Eyebrow>Les futurs époux</Eyebrow>
-          <h2 className="mt-2 font-display text-4xl text-wine sm:text-5xl">
+          <h2 className="mt-2 font-display text-4xl text-royal sm:text-5xl">
             Notre histoire commence
           </h2>
           <Diamond />
@@ -186,19 +186,19 @@ function Couple() {
           {portraits.map((p, i) => (
             <Reveal key={p.name} delay={i * 150} className="text-center">
               {/* Cadre photo — remplacer par une vraie image plus tard */}
-              <div className="group relative mx-auto aspect-[4/5] w-full max-w-xs overflow-hidden rounded-t-full border border-gold/40 bg-gradient-to-b from-wine-500/15 to-wine/10">
+              <div className="group relative mx-auto aspect-[4/5] w-full max-w-xs overflow-hidden rounded-t-full border border-gold/40 bg-gradient-to-b from-royal-500/15 to-royal/10">
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="font-display text-8xl text-wine/25">
+                  <span className="font-display text-8xl text-royal/25">
                     {p.name[0]}
                   </span>
                 </div>
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-wine/15 to-transparent py-4">
-                  <span className="text-[0.65rem] uppercase tracking-wide-sm text-wine/50">
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-royal/15 to-transparent py-4">
+                  <span className="text-[0.65rem] uppercase tracking-wide-sm text-royal/50">
                     Photo à venir
                   </span>
                 </div>
               </div>
-              <h3 className="mt-6 font-display text-3xl text-wine">{p.name}</h3>
+              <h3 className="mt-6 font-display text-3xl text-royal">{p.name}</h3>
               <p className="mt-1 text-xs uppercase tracking-wide-sm text-ink-soft">
                 {p.family}
               </p>
@@ -213,18 +213,18 @@ function Couple() {
 /* ──────────────────────────── CÉRÉMONIES ──────────────────────────── */
 function Ceremonies() {
   return (
-    <section id="ceremonies" className="relative bg-wine px-5 py-24 sm:py-32">
+    <section id="ceremonies" className="relative bg-royal px-5 py-24 sm:py-32">
       <MotifGrid />
       <div className="pointer-events-none absolute inset-0 opacity-[0.06]">
         <div className="absolute right-10 top-10 h-72 w-72 rounded-full border border-gold" />
         <div className="absolute left-10 bottom-10 h-52 w-52 rounded-full border border-gold" />
       </div>
 
-      <div className="relative mx-auto max-w-5xl">
+      <div className="relative mx-auto max-w-2xl">
         <Reveal className="text-center">
           <Eyebrow>Le grand jour</Eyebrow>
           <h2 className="mt-2 font-display text-4xl text-ivory sm:text-5xl">
-            Programme des cérémonies
+            Le mariage coutumier
           </h2>
           <p className="mt-4 text-sm uppercase tracking-wide-sm text-gold-light">
             {wedding.dayLabel} {wedding.dateLabel}
@@ -232,38 +232,38 @@ function Ceremonies() {
           <Diamond />
         </Reveal>
 
-        <div className="mt-10 grid gap-8 md:grid-cols-2">
-          {wedding.ceremonies.map((c, i) => (
-            <Reveal key={c.key} delay={i * 150}>
-              <article className="flex h-full flex-col rounded-2xl border border-gold/25 bg-wine-700/40 p-8 text-center backdrop-blur-sm transition-transform duration-500 hover:-translate-y-1.5 hover:border-gold/50">
-                <span className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full border border-gold/40 text-gold-light">
-                  {c.key === "civil" ? <RingsIcon /> : <HeartIcon />}
-                </span>
-                <h3 className="font-display text-3xl text-ivory">{c.title}</h3>
-                <p className="mt-2 text-sm text-cream/70">{c.subtitle}</p>
+        <Reveal delay={120}>
+          <article className="flex flex-col rounded-2xl border border-gold/25 bg-royal-700/40 p-8 text-center backdrop-blur-sm sm:p-10">
+            <span className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full border border-gold/40 text-gold-light">
+              <HeartIcon />
+            </span>
+            <h3 className="font-display text-3xl text-ivory">
+              {wedding.ceremony.title}
+            </h3>
+            <p className="mt-2 text-sm text-cream/70">
+              {wedding.ceremony.subtitle}
+            </p>
 
-                <div className="my-6 hairline" />
+            <div className="my-6 hairline" />
 
-                <dl className="space-y-3 text-sm text-cream/85">
-                  <Row label="Date">{c.date}</Row>
-                  <Row label="Heure">{c.time ?? "À confirmer"}</Row>
-                  <Row label="Lieu">
-                    {c.venue}, {c.city}
-                  </Row>
-                </dl>
+            <dl className="mx-auto max-w-xs space-y-3 text-sm text-cream/85">
+              <Row label="Date">{wedding.ceremony.date}</Row>
+              <Row label="Heure">{wedding.ceremony.time ?? "À confirmer"}</Row>
+              <Row label="Lieu">
+                {wedding.ceremony.venue}, {wedding.ceremony.city}
+              </Row>
+            </dl>
 
-                <a
-                  href={mapsUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-outline mt-7 self-center !px-6 !py-2.5 text-[0.7rem]"
-                >
-                  Voir l&apos;itinéraire
-                </a>
-              </article>
-            </Reveal>
-          ))}
-        </div>
+            <a
+              href={mapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-outline mt-7 self-center !px-6 !py-2.5 text-[0.7rem]"
+            >
+              Voir l&apos;itinéraire
+            </a>
+          </article>
+        </Reveal>
       </div>
     </section>
   );
@@ -288,7 +288,7 @@ function Gallery() {
       <div className="relative z-10 mx-auto max-w-5xl">
         <Reveal className="text-center">
           <Eyebrow>Souvenirs</Eyebrow>
-          <h2 className="mt-2 font-display text-4xl text-wine sm:text-5xl">
+          <h2 className="mt-2 font-display text-4xl text-royal sm:text-5xl">
             Galerie
           </h2>
           <p className="mx-auto mt-4 max-w-md text-sm text-ink-soft">
@@ -306,7 +306,7 @@ function Gallery() {
               className={i % 5 === 0 ? "col-span-2 sm:col-span-1" : ""}
             >
               <div className="flex aspect-square items-center justify-center rounded-xl border border-gold/30 bg-gradient-to-br from-cream to-sand/60">
-                <svg viewBox="0 0 24 24" className="h-9 w-9 text-wine/25" fill="none" stroke="currentColor" strokeWidth="1.2">
+                <svg viewBox="0 0 24 24" className="h-9 w-9 text-royal/25" fill="none" stroke="currentColor" strokeWidth="1.2">
                   <rect x="3" y="5" width="18" height="14" rx="2" />
                   <circle cx="9" cy="10" r="1.6" />
                   <path strokeLinecap="round" strokeLinejoin="round" d="m4 18 5-5 4 4 3-3 4 4" />
@@ -323,7 +323,7 @@ function Gallery() {
 /* ────────────────────────────── RSVP ────────────────────────────── */
 function Rsvp() {
   return (
-    <section id="rsvp" className="relative bg-wine px-5 py-24 sm:py-32">
+    <section id="rsvp" className="relative bg-royal px-5 py-24 sm:py-32">
       <MotifGrid />
       <div className="pointer-events-none absolute inset-x-4 inset-y-8 rounded-[2rem] border border-gold/15 sm:inset-x-6" />
       <div className="relative mx-auto max-w-2xl px-3 md:px-0">
@@ -333,8 +333,8 @@ function Rsvp() {
             Confirmez votre venue
           </h2>
           <p className="mx-auto mt-4 max-w-md text-sm text-cream/70">
-            Faites-nous savoir si vous serez des nôtres et choisissez votre
-            boisson préférée.
+            Faites-nous savoir si vous serez des nôtres pour célébrer notre
+            mariage traditionnel.
           </p>
           <Diamond />
         </Reveal>
@@ -379,15 +379,6 @@ function HeartIcon() {
   return (
     <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="1.4">
       <path strokeLinecap="round" strokeLinejoin="round" d="M12 20s-7-4.5-9.5-9A4.5 4.5 0 0 1 12 6a4.5 4.5 0 0 1 9.5 5c-2.5 4.5-9.5 9-9.5 9Z" />
-    </svg>
-  );
-}
-function RingsIcon() {
-  return (
-    <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="1.4">
-      <circle cx="9" cy="14" r="5" />
-      <circle cx="15" cy="14" r="5" />
-      <path strokeLinecap="round" strokeLinejoin="round" d="m9 4 1.5 2.5h3L15 4" />
     </svg>
   );
 }

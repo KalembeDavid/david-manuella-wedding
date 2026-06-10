@@ -31,44 +31,22 @@ export const wedding = {
   // Lien Google Maps (remplace par le lien exact du lieu quand tu l'as)
   mapsQuery: "Katebi, Kolwezi",
 
-  // Phrase d'invitation
-  invitationLead: "Avec la bénédiction de Dieu et la joie de nos familles,",
+  // Phrase d'invitation (ton coutumier / traditionnel)
+  invitationLead:
+    "Selon la coutume et avec la bénédiction de nos familles,",
   invitationBody:
-    "nous avons l'immense bonheur de vous convier à célébrer notre union. Votre présence sera le plus beau des cadeaux.",
+    "nos deux familles s'unissent pour célébrer notre mariage traditionnel. Nous vous convions à partager cette journée de dot, d'union et de réjouissances. Votre présence sera notre plus grande joie.",
 
-  // Programme des cérémonies.
-  // Mets "time" à null tant que l'heure n'est pas confirmée → le site
-  // affichera « Heure à confirmer ».
-  ceremonies: [
-    {
-      key: "coutumier",
-      title: "Mariage Coutumier",
-      subtitle: "La rencontre de nos deux familles",
-      date: "19 Juin 2026",
-      time: null as string | null,
-      venue: "Katebi",
-      city: "Kolwezi",
-    },
-    {
-      key: "civil",
-      title: "Mariage Civil",
-      subtitle: "Le « oui » officiel",
-      date: "19 Juin 2026",
-      time: null as string | null,
-      venue: "Katebi",
-      city: "Kolwezi",
-    },
-  ],
-
-  // Choix de boissons proposés à l'inscription (modifiable librement)
-  drinks: [
-    "Vin rouge",
-    "Vin blanc",
-    "Champagne",
-    "Bière",
-    "Jus / Sans alcool",
-    "Eau",
-  ],
+  // La cérémonie traditionnelle (mariage coutumier).
+  // Mets "time" à null tant que l'heure n'est pas confirmée.
+  ceremony: {
+    title: "Mariage Coutumier",
+    subtitle: "L'union de nos deux familles selon la tradition",
+    date: "19 Juin 2026",
+    time: null as string | null,
+    venue: "Katebi",
+    city: "Kolwezi",
+  },
 
   // Date limite pour confirmer sa présence
   rsvpDeadlineLabel: "1er Juin 2026",
@@ -80,7 +58,7 @@ export const wedding = {
   },
 };
 
-export type Ceremony = (typeof wedding.ceremonies)[number];
+export type Ceremony = typeof wedding.ceremony;
 
 /** Lien Google Maps prêt à l'emploi */
 export const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(

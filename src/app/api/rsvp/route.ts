@@ -29,10 +29,6 @@ export async function POST(req: NextRequest) {
     20,
     Math.max(1, parseInt(String(body.partySize ?? "1"), 10) || 1)
   );
-  const attending = Array.isArray(body.attending)
-    ? (body.attending as unknown[]).map(String)
-    : [];
-  const drink = String(body.drink ?? "").trim();
 
   try {
     const supabase = getSupabaseAdmin();
@@ -42,9 +38,6 @@ export async function POST(req: NextRequest) {
         full_name: fullName,
         phone: String(body.phone ?? "").trim() || null,
         party_size: partySize,
-        drink: drink || null,
-        attending_coutumier: attending.includes("coutumier"),
-        attending_civil: attending.includes("civil"),
         message: String(body.message ?? "").trim() || null,
       })
       .select("id")

@@ -75,7 +75,9 @@ export function FloatingAccents() {
         <span
           key={i}
           aria-hidden
-          className="pointer-events-none absolute block animate-float-slow bg-gold/25"
+          className={`pointer-events-none absolute block animate-float-slow ${
+            i % 2 === 0 ? "bg-gold/30" : "bg-orange/30"
+          }`}
           style={{
             top: it.top,
             left: it.left,

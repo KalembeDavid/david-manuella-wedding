@@ -18,8 +18,6 @@ export default function RsvpForm() {
       fullName: fd.get("fullName"),
       phone: fd.get("phone"),
       partySize: fd.get("partySize"),
-      drink: fd.get("drink"),
-      attending: fd.getAll("attending"),
       message: fd.get("message"),
     };
     setName(String(payload.fullName || ""));
@@ -110,42 +108,6 @@ export default function RsvpForm() {
             ))}
           </select>
         </Field>
-
-        <Field label="Boisson préférée *" className="sm:col-span-2">
-          <select name="drink" required defaultValue="" className="rsvp-input">
-            <option value="" disabled>
-              Choisissez une boisson…
-            </option>
-            {wedding.drinks.map((d) => (
-              <option key={d} value={d}>
-                {d}
-              </option>
-            ))}
-          </select>
-        </Field>
-
-        <fieldset className="sm:col-span-2">
-          <legend className="mb-3 text-xs uppercase tracking-wide-sm text-cream/70">
-            Je participerai à
-          </legend>
-          <div className="flex flex-wrap gap-4">
-            {wedding.ceremonies.map((c) => (
-              <label
-                key={c.key}
-                className="flex cursor-pointer items-center gap-3 rounded-full border border-gold/30 px-5 py-2.5 text-sm text-cream/90 transition-colors hover:border-gold/70"
-              >
-                <input
-                  type="checkbox"
-                  name="attending"
-                  value={c.key}
-                  defaultChecked
-                  className="h-4 w-4 accent-[var(--color-gold)]"
-                />
-                {c.title}
-              </label>
-            ))}
-          </div>
-        </fieldset>
 
         <Field label="Un petit mot pour les mariés" className="sm:col-span-2">
           <textarea

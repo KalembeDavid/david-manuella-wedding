@@ -34,9 +34,6 @@ export type Guest = {
   full_name: string;
   phone: string | null;
   party_size: number;
-  drink: string | null;
-  attending_coutumier: boolean;
-  attending_civil: boolean;
   message: string | null;
   checked_in: boolean;
   checked_in_at: string | null;
