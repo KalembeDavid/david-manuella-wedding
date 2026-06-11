@@ -45,28 +45,40 @@ async function Hero() {
       {/* Colonne de motifs africains — bord gauche */}
       <AfricanMotifColumn className="pointer-events-none absolute left-0 top-0 z-10 h-full w-9 text-gold/50 sm:w-11" />
 
-      {/* Coup de pinceau mobile (z-index bas pour ne pas masquer le texte) */}
+      {/* Coup de pinceau mobile */}
       <div className="pointer-events-none absolute right-0 top-0 z-0 h-full w-[62%] overflow-hidden lg:hidden">
         <HeroBrushStroke className="absolute inset-0 h-full w-full text-gold/35" />
-        {heroPhoto && (
-          <div
-            className="absolute inset-0"
-            style={{
-              maskImage:
-                "radial-gradient(ellipse 95% 85% at 52% 32%, black 5%, rgba(0,0,0,0.88) 28%, rgba(0,0,0,0.45) 55%, transparent 78%)",
-            }}
-          >
-            <Image
-              src={heroPhoto}
-              alt={`${wedding.groom.firstName} & ${wedding.bride.firstName}`}
-              fill
-              className="object-cover"
-              style={{ objectPosition: "center 18%" }}
-              sizes="62vw"
-            />
-          </div>
-        )}
       </div>
+
+      {/* Photo héro mobile — container plus large pour loger les deux visages */}
+      {heroPhoto && (
+        <div
+          className="pointer-events-none absolute right-0 top-0 z-0 h-[72%] w-[76%] overflow-hidden lg:hidden"
+          style={{
+            maskImage: [
+              "linear-gradient(to right,",
+              "  transparent 0%,",
+              "  rgba(0,0,0,0.06) 12%,",
+              "  rgba(0,0,0,0.28) 24%,",
+              "  rgba(0,0,0,0.62) 36%,",
+              "  rgba(0,0,0,0.88) 48%,",
+              "  black 58%,",
+              "  black 86%,",
+              "  transparent 100%",
+              ")",
+            ].join(""),
+          }}
+        >
+          <Image
+            src={heroPhoto}
+            alt={`${wedding.groom.firstName} & ${wedding.bride.firstName}`}
+            fill
+            className="object-cover"
+            style={{ objectPosition: "55% 12%" }}
+            sizes="76vw"
+          />
+        </div>
+      )}
 
       <div className="flex min-h-svh flex-col lg:flex-row">
 
