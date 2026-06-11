@@ -83,6 +83,7 @@ export async function GET(
       full_name: "Jean-Pierre Mwamba",
       phone: null,
       party_size: 2,
+      table_number: 3,
       message: null,
       checked_in: false,
       checked_in_at: null,

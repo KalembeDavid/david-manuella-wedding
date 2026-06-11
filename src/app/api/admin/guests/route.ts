@@ -8,6 +8,7 @@ type GuestInput = {
   full_name: string;
   phone: string | null;
   party_size: number;
+  table_number: number | null;
 };
 
 function sanitizeGuest(raw: unknown): GuestInput | null {
@@ -19,10 +20,15 @@ function sanitizeGuest(raw: unknown): GuestInput | null {
     20,
     Math.max(1, parseInt(String(o.party_size ?? o.partySize ?? "1"), 10) || 1)
   );
+  const rawTable = o.table_number ?? o.tableNumber ?? null;
+  const tableNumber = rawTable !== null && rawTable !== ""
+    ? Math.max(1, parseInt(String(rawTable), 10) || 1)
+    : null;
   return {
     full_name: fullName,
     phone: String(o.phone ?? "").trim() || null,
     party_size: partySize,
+    table_number: tableNumber,
   };
 }
 
