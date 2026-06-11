@@ -125,6 +125,7 @@ export async function GET(
 
   const band = kenteBandUri(WIDTH, 36);
   const partyLabel = `${guest.party_size} ${guest.party_size > 1 ? "personnes" : "personne"}`;
+  const tableLabel = guest.table_number ? `Table ${guest.table_number}` : null;
 
   const image = new ImageResponse(
     (
@@ -291,19 +292,36 @@ export async function GET(
             Présentez ce QR code à l&apos;entrée
           </div>
 
-          {/* Badge nombre de personnes */}
-          <div
-            style={{
-              display: "flex",
-              marginTop: 22,
-              padding: "10px 34px",
-              borderRadius: 999,
-              border: `2px solid ${GOLD}77`,
-              color: CREAM,
-              fontSize: 28,
-            }}
-          >
-            {partyLabel}
+          {/* Badges personnes + table */}
+          <div style={{ display: "flex", gap: 16, marginTop: 22 }}>
+            <div
+              style={{
+                display: "flex",
+                padding: "10px 34px",
+                borderRadius: 999,
+                border: `2px solid ${GOLD}77`,
+                color: CREAM,
+                fontSize: 28,
+              }}
+            >
+              {partyLabel}
+            </div>
+            {tableLabel && (
+              <div
+                style={{
+                  display: "flex",
+                  padding: "10px 34px",
+                  borderRadius: 999,
+                  backgroundColor: `${GOLD}22`,
+                  border: `2px solid ${GOLD}99`,
+                  color: GOLD_LIGHT,
+                  fontSize: 28,
+                  fontFamily: "Display",
+                }}
+              >
+                {tableLabel}
+              </div>
+            )}
           </div>
         </div>
 

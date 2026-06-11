@@ -95,6 +95,7 @@ export default async function InvitationPage({
               {guest.party_size}{" "}
               {guest.party_size > 1 ? "personnes" : "personne"}
             </Badge>
+            {guest.table_number && <Badge>Table {guest.table_number}</Badge>}
             <Badge>Mariage coutumier</Badge>
           </div>
           </div>

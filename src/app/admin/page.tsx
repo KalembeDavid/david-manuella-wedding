@@ -55,6 +55,8 @@ export default function AdminPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [photoData, setPhotoData] = useState<PhotoData | null>(null);
   const [photoBusy, setPhotoBusy] = useState(false);
+  const [sortField, setSortField] = useState<"full_name" | "table_number" | "party_size" | "checked_in" | null>(null);
+  const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
 
   const [password, setPassword] = useState("");
 
@@ -78,14 +80,55 @@ export default function AdminPage() {
 
   const filteredGuests = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();
-    if (!q) return guests;
-    return guests.filter(
-      g =>
-        g.full_name.toLowerCase().includes(q) ||
-        (g.phone && g.phone.includes(q)) ||
-        (g.table_number != null && String(g.table_number).includes(q))
-    );
-  }, [guests, searchQuery]);
+    let list = q
+      ? guests.filter(
+          g =>
+            g.full_name.toLowerCase().includes(q) ||
+            (g.phone && g.phone.includes(q)) ||
+            (g.table_number != null && String(g.table_number).includes(q))
+        )
+      : [...guests];
+
+    if (sortField) {
+      list.sort((a, b) => {
+        const raw_a = a[sortField];
+        const raw_b = b[sortField];
+        const va: string | number | boolean = raw_a ?? (sortField === "full_name" ? "" : -Infinity);
+        const vb: string | number | boolean = raw_b ?? (sortField === "full_name" ? "" : -Infinity);
+        const cmp = va < vb ? -1 : va > vb ? 1 : 0;
+        return sortDir === "asc" ? cmp : -cmp;
+      });
+    }
+    return list;
+  }, [guests, searchQuery, sortField, sortDir]);
+
+  function toggleSort(field: typeof sortField) {
+    if (sortField === field) setSortDir(d => d === "asc" ? "desc" : "asc");
+    else { setSortField(field); setSortDir("asc"); }
+  }
+
+  function exportCsv() {
+    const rows = guests.map(g => ({
+      Nom: g.full_name,
+      Telephone: g.phone ?? "",
+      Personnes: g.party_size,
+      Table: g.table_number ?? "",
+      Arrive: g.checked_in ? "Oui" : "Non",
+      "Heure arrivee": g.checked_in_at
+        ? new Date(g.checked_in_at).toLocaleString("fr-FR")
+        : "",
+      Message: g.message ?? "",
+      Inscription: new Date(g.created_at).toLocaleDateString("fr-FR"),
+    }));
+    const csv = Papa.unparse(rows, { delimiter: ";" });
+    const blob = new Blob(["﻿" + csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `invites-david-manuella-${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
 
   const refresh = useCallback(async () => {
     setError("");
@@ -257,7 +300,10 @@ export default function AdminPage() {
           </h1>
           <p className="mt-1 text-sm text-cream/60">{wedding.dateLabel} · {wedding.venue}, {wedding.city}</p>
         </div>
-        <button onClick={handleLogout} className="btn-outline !px-5 !py-2 text-[0.7rem]">Se déconnecter</button>
+        <div className="flex gap-2">
+          <button onClick={exportCsv} className="btn-outline !px-5 !py-2 text-[0.7rem]">↓ Export CSV</button>
+          <button onClick={handleLogout} className="btn-outline !px-5 !py-2 text-[0.7rem]">Se déconnecter</button>
+        </div>
       </div>
 
       {/* Stats */}
@@ -381,11 +427,11 @@ export default function AdminPage() {
               <table className="w-full min-w-[760px] text-left text-sm">
                 <thead>
                   <tr className="border-b border-gold/20 text-xs uppercase tracking-wide-sm text-gold-light/80">
-                    <th className="px-5 py-4">Invité</th>
+                    <SortTh field="full_name" current={sortField} dir={sortDir} onSort={toggleSort} className="px-5 py-4">Invité</SortTh>
                     <th className="px-3 py-4">Téléphone</th>
-                    <th className="px-3 py-4">Pers.</th>
-                    <th className="px-3 py-4">Table</th>
-                    <th className="px-3 py-4">Arrivé</th>
+                    <SortTh field="party_size" current={sortField} dir={sortDir} onSort={toggleSort} className="px-3 py-4">Pers.</SortTh>
+                    <SortTh field="table_number" current={sortField} dir={sortDir} onSort={toggleSort} className="px-3 py-4">Table</SortTh>
+                    <SortTh field="checked_in" current={sortField} dir={sortDir} onSort={toggleSort} className="px-3 py-4">Arrivé</SortTh>
                     <th className="px-5 py-4 text-right">Actions</th>
                   </tr>
                 </thead>
@@ -553,6 +599,14 @@ function EditModal({
                 type="number" min="1" placeholder="—" className="rsvp-input w-full" />
             </div>
           </div>
+          {guest.message && (
+            <div>
+              <label className="mb-1.5 block text-xs uppercase tracking-wide-sm text-cream/60">Message RSVP</label>
+              <p className="rounded-xl border border-gold/20 bg-deep/50 px-4 py-3 text-sm italic text-cream/70">
+                &ldquo;{guest.message}&rdquo;
+              </p>
+            </div>
+          )}
           <div className="mt-2 flex gap-3">
             <button type="submit" className="btn-gold flex-1" disabled={saving}>
               {saving ? "Enregistrement…" : "Enregistrer"}
@@ -896,6 +950,34 @@ function Shell({ children, wide = false }: { children: React.ReactNode; wide?: b
         {children}
       </div>
     </main>
+  );
+}
+
+type SortField = "full_name" | "table_number" | "party_size" | "checked_in";
+
+function SortTh({
+  field, current, dir, onSort, className, children,
+}: {
+  field: SortField;
+  current: SortField | null;
+  dir: "asc" | "desc";
+  onSort: (f: SortField) => void;
+  className?: string;
+  children: React.ReactNode;
+}) {
+  const active = current === field;
+  return (
+    <th
+      className={`cursor-pointer select-none hover:text-gold-light ${className ?? ""}`}
+      onClick={() => onSort(field)}
+    >
+      <span className="inline-flex items-center gap-1">
+        {children}
+        <span className={`text-[10px] ${active ? "text-gold" : "text-cream/20"}`}>
+          {active ? (dir === "asc" ? "▲" : "▼") : "⇅"}
+        </span>
+      </span>
+    </th>
   );
 }
 
