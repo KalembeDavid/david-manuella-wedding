@@ -49,7 +49,7 @@ export const wedding = {
   },
 
   // Date limite pour confirmer sa présence
-  rsvpDeadlineLabel: "15 Juin 2026",
+  rsvpDeadlineLabel: "20 Juin 2026",
 
   // Contact (optionnel — affiché en bas de page)
   contact: {
