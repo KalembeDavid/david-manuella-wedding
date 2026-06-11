@@ -10,7 +10,7 @@ import { KenteBand } from "@/components/Motifs";
 type View = "loading" | "login" | "unconfigured" | "ready";
 type Tab = "guests" | "scanner" | "photos";
 type PhotoData = {
-  couple: { david: string | null; manuella: string | null };
+  couple: { david: string | null; manuella: string | null; hero: string | null };
   gallery: string[];
 };
 type CsvRow = { full_name: string; phone: string | null; party_size: number };
@@ -249,20 +249,20 @@ export default function AdminPage() {
 
   /* ─── Vues de chargement / login / non configuré ─── */
 
-  if (view === "loading") return <Shell><p className="text-center text-cream/70">Chargement…</p></Shell>;
+  if (view === "loading") return <Shell><p className="text-center text-ink/50">Chargement…</p></Shell>;
 
   if (view === "login") {
     return (
       <Shell>
         <div className="mx-auto max-w-sm text-center">
-          <h1 className="font-display text-4xl text-ivory">Espace admin</h1>
-          <p className="mt-3 text-sm text-cream/70">
+          <h1 className="font-display text-4xl text-ink">Espace admin</h1>
+          <p className="mt-3 text-sm text-ink/55">
             Gestion des invités du mariage de {wedding.groom.firstName} &amp; {wedding.bride.firstName}.
           </p>
           <form onSubmit={handleLogin} className="mt-8 flex flex-col gap-4">
             <input type="password" value={password} onChange={e => setPassword(e.target.value)}
-              placeholder="Mot de passe" className="rsvp-input" autoFocus />
-            {error && <p className="text-sm text-red-300">{error}</p>}
+              placeholder="Mot de passe" className="admin-input" autoFocus />
+            {error && <p className="text-sm text-red-600">{error}</p>}
             <button type="submit" className="btn-gold" disabled={busy}>
               {busy ? "Connexion…" : "Se connecter"}
             </button>
@@ -276,12 +276,12 @@ export default function AdminPage() {
     return (
       <Shell>
         <div className="mx-auto max-w-lg text-center">
-          <h1 className="font-display text-4xl text-ivory">Espace admin</h1>
-          <p className="mt-6 rounded-xl border border-gold/30 bg-orange/10 p-6 text-sm leading-relaxed text-cream/85">
+          <h1 className="font-display text-4xl text-ink">Espace admin</h1>
+          <p className="mt-6 rounded-xl border border-orange/30 bg-orange/8 p-6 text-sm leading-relaxed text-ink/75">
             La base de données n&apos;est pas encore configurée.
             <br />
-            Ajoute les variables <code className="text-gold-light">NEXT_PUBLIC_SUPABASE_URL</code>{" "}
-            et <code className="text-gold-light">SUPABASE_SERVICE_ROLE_KEY</code>, puis recharge cette page.
+            Ajoute les variables <code className="text-orange">NEXT_PUBLIC_SUPABASE_URL</code>{" "}
+            et <code className="text-orange">SUPABASE_SERVICE_ROLE_KEY</code>, puis recharge cette page.
           </p>
         </div>
       </Shell>
@@ -295,14 +295,14 @@ export default function AdminPage() {
       {/* En-tête */}
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h1 className="font-display text-3xl text-ivory sm:text-4xl">
+          <h1 className="font-display text-3xl text-ink sm:text-4xl">
             Invités — {wedding.groom.firstName} &amp; {wedding.bride.firstName}
           </h1>
-          <p className="mt-1 text-sm text-cream/60">{wedding.dateLabel} · {wedding.venue}, {wedding.city}</p>
+          <p className="mt-1 text-sm text-ink/50">{wedding.dateLabel} · {wedding.venue}, {wedding.city}</p>
         </div>
         <div className="flex gap-2">
-          <button onClick={exportCsv} className="btn-outline !px-5 !py-2 text-[0.7rem]">↓ Export CSV</button>
-          <button onClick={handleLogout} className="btn-outline !px-5 !py-2 text-[0.7rem]">Se déconnecter</button>
+          <button onClick={exportCsv} className="btn-outline-dark !px-5 !py-2 text-[0.7rem]">↓ Export CSV</button>
+          <button onClick={handleLogout} className="btn-outline-dark !px-5 !py-2 text-[0.7rem]">Se déconnecter</button>
         </div>
       </div>
 
@@ -316,22 +316,22 @@ export default function AdminPage() {
 
       {(error || notice) && (
         <p className={`mt-6 rounded-lg border p-3 text-center text-sm ${error
-          ? "border-red-400/40 bg-red-900/20 text-red-200"
-          : "border-gold/40 bg-orange/10 text-gold-light"}`}>
+          ? "border-red-300 bg-red-50 text-red-600"
+          : "border-orange/40 bg-orange/8 text-orange"}`}>
           {error || notice}
         </p>
       )}
 
       {/* Onglets */}
-      <div className="mt-8 flex gap-2 border-b border-gold/20">
+      <div className="mt-8 flex gap-2 border-b border-sand/50">
         {(["guests", "scanner", "photos"] as Tab[]).map(tab => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
             className={`px-5 py-2.5 text-sm font-semibold uppercase tracking-wide-sm transition-colors ${
               activeTab === tab
-                ? "border-b-2 border-gold text-gold-light"
-                : "text-cream/50 hover:text-cream/80"
+                ? "border-b-2 border-orange text-orange"
+                : "text-ink/40 hover:text-ink/65"
             }`}
           >
             {tab === "guests" ? "Invités" : tab === "scanner" ? "Scanner QR" : "Photos"}
@@ -344,21 +344,21 @@ export default function AdminPage() {
         <>
           <div className="mt-8 grid gap-6 lg:grid-cols-2">
             {/* Import CSV */}
-            <section className="rounded-2xl border border-gold/25 bg-orange/8 p-6">
-              <h2 className="font-display text-2xl text-ivory">Importer un CSV</h2>
-              <p className="mt-2 text-xs leading-relaxed text-cream/60">
-                Colonnes reconnues : <b className="text-cream/85">nom</b> (obligatoire),{" "}
-                <b className="text-cream/85">telephone</b>, <b className="text-cream/85">personnes</b>.
+            <section className="rounded-2xl border border-sand/50 bg-cream/50 p-6">
+              <h2 className="font-display text-2xl text-ink">Importer un CSV</h2>
+              <p className="mt-2 text-xs leading-relaxed text-ink/50">
+                Colonnes reconnues : <b className="text-ink/75">nom</b> (obligatoire),{" "}
+                <b className="text-ink/75">telephone</b>, <b className="text-ink/75">personnes</b>.
               </p>
               <input ref={fileRef} type="file" accept=".csv,text/csv"
-                className="mt-4 block w-full text-sm text-cream/80 file:mr-4 file:rounded-full file:border-0 file:bg-gold file:px-5 file:py-2.5 file:text-xs file:font-semibold file:uppercase file:tracking-wide-sm file:text-ink hover:file:bg-gold-light"
+                className="mt-4 block w-full text-sm text-ink/65 file:mr-4 file:rounded-full file:border-0 file:bg-gold file:px-5 file:py-2.5 file:text-xs file:font-semibold file:uppercase file:tracking-wide-sm file:text-ink hover:file:bg-gold-light"
                 onChange={e => { const f = e.target.files?.[0]; if (f) handleCsvFile(f); }} />
               {csvRows && (
-                <div className="mt-4 rounded-xl border border-gold/20 bg-deep/60 p-4">
-                  <p className="text-sm text-cream/85">
-                    <b className="text-gold-light">{csvRows.length}</b> invités dans <i>{csvName}</i> :
+                <div className="mt-4 rounded-xl border border-sand/40 bg-cream/70 p-4">
+                  <p className="text-sm text-ink/75">
+                    <b className="text-orange">{csvRows.length}</b> invités dans <i>{csvName}</i> :
                   </p>
-                  <ul className="mt-2 max-h-36 overflow-y-auto text-xs text-cream/70">
+                  <ul className="mt-2 max-h-36 overflow-y-auto text-xs text-ink/55">
                     {csvRows.slice(0, 8).map((r, i) => (
                       <li key={i}>• {r.full_name}{r.phone ? ` — ${r.phone}` : ""} ({r.party_size} pers.)</li>
                     ))}
@@ -369,29 +369,29 @@ export default function AdminPage() {
                       {busy ? "Import…" : `Importer ${csvRows.length} invités`}
                     </button>
                     <button onClick={() => { setCsvRows(null); setCsvName(""); if (fileRef.current) fileRef.current.value = ""; }}
-                      className="btn-outline !px-6 !py-2.5 text-[0.7rem]">Annuler</button>
+                      className="btn-outline-dark !px-6 !py-2.5 text-[0.7rem]">Annuler</button>
                   </div>
                 </div>
               )}
             </section>
 
             {/* Ajout manuel */}
-            <section className="rounded-2xl border border-gold/25 bg-orange/8 p-6">
-              <h2 className="font-display text-2xl text-ivory">Ajouter un invité</h2>
+            <section className="rounded-2xl border border-sand/50 bg-cream/50 p-6">
+              <h2 className="font-display text-2xl text-ink">Ajouter un invité</h2>
               <form onSubmit={handleAddManual} className="mt-4 flex flex-col gap-4">
                 <input value={newName} onChange={e => setNewName(e.target.value)}
-                  placeholder="Nom complet *" required className="rsvp-input" />
+                  placeholder="Nom complet *" required className="admin-input" />
                 <div className="flex gap-3">
                   <input value={newPhone} onChange={e => setNewPhone(e.target.value)}
-                    placeholder="Téléphone" className="rsvp-input flex-1" />
+                    placeholder="Téléphone" className="admin-input flex-1" />
                   <select value={newSize} onChange={e => setNewSize(parseInt(e.target.value, 10))}
-                    className="rsvp-input !w-28">
+                    className="admin-input !w-28">
                     {[1,2,3,4,5,6,8,10].map(n => <option key={n} value={n}>{n} pers.</option>)}
                   </select>
                 </div>
                 <div className="flex items-center gap-3">
                   <input value={newTable} onChange={e => setNewTable(e.target.value)}
-                    placeholder="N° table (optionnel)" type="number" min="1" className="rsvp-input !w-48" />
+                    placeholder="N° table (optionnel)" type="number" min="1" className="admin-input !w-48" />
                 </div>
                 <button type="submit" className="btn-gold self-start !px-6 !py-2.5 text-[0.7rem]" disabled={busy}>
                   Ajouter
@@ -401,32 +401,32 @@ export default function AdminPage() {
           </div>
 
           {/* Barre de recherche */}
-          <div className="mt-6 relative">
+          <div className="relative mt-6">
             <input
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
               placeholder="Rechercher un invité, téléphone ou n° de table…"
-              className="rsvp-input w-full pl-10"
+              className="admin-input w-full pl-10"
             />
-            <svg className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-cream/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <svg className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink/35" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <circle cx="11" cy="11" r="8"/><path strokeLinecap="round" d="m21 21-4.35-4.35"/>
             </svg>
             {searchQuery && (
-              <button onClick={() => setSearchQuery("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-cream/40 hover:text-cream/70 text-lg leading-none">×</button>
+              <button onClick={() => setSearchQuery("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-lg leading-none text-ink/35 hover:text-ink/60">×</button>
             )}
           </div>
           {searchQuery && (
-            <p className="mt-2 text-xs text-cream/50">
+            <p className="mt-2 text-xs text-ink/40">
               {filteredGuests.length} résultat{filteredGuests.length !== 1 ? "s" : ""} sur {guests.length} invités
             </p>
           )}
 
           {/* Liste des invités */}
-          <section className="mt-4 overflow-hidden rounded-2xl border border-gold/25 bg-orange/8">
+          <section className="mt-4 overflow-hidden rounded-2xl border border-sand/50 bg-cream/30">
             <div className="overflow-x-auto">
               <table className="w-full min-w-[760px] text-left text-sm">
                 <thead>
-                  <tr className="border-b border-gold/20 text-xs uppercase tracking-wide-sm text-gold-light/80">
+                  <tr className="border-b border-sand/40 text-xs uppercase tracking-wide-sm text-orange/70">
                     <SortTh field="full_name" current={sortField} dir={sortDir} onSort={toggleSort} className="px-5 py-4">Invité</SortTh>
                     <th className="px-3 py-4">Téléphone</th>
                     <SortTh field="party_size" current={sortField} dir={sortDir} onSort={toggleSort} className="px-3 py-4">Pers.</SortTh>
@@ -438,35 +438,35 @@ export default function AdminPage() {
                 <tbody>
                   {guests.length === 0 && (
                     <tr>
-                      <td colSpan={6} className="px-5 py-10 text-center text-cream/50">
+                      <td colSpan={6} className="px-5 py-10 text-center text-ink/40">
                         Aucun invité — importe un CSV ou ajoute-les à la main.
                       </td>
                     </tr>
                   )}
                   {guests.length > 0 && filteredGuests.length === 0 && (
                     <tr>
-                      <td colSpan={6} className="px-5 py-10 text-center text-cream/50">
+                      <td colSpan={6} className="px-5 py-10 text-center text-ink/40">
                         Aucun résultat pour « {searchQuery} ».
                       </td>
                     </tr>
                   )}
                   {filteredGuests.map(g => (
-                    <tr key={g.id} className="border-b border-gold/10 text-cream/85 hover:bg-orange/10">
-                      <td className="px-5 py-3 font-medium text-ivory">{g.full_name}</td>
-                      <td className="px-3 py-3 text-cream/70">{g.phone || "—"}</td>
+                    <tr key={g.id} className="border-b border-sand/25 text-ink/75 hover:bg-orange/5">
+                      <td className="px-5 py-3 font-medium text-ink">{g.full_name}</td>
+                      <td className="px-3 py-3 text-ink/50">{g.phone || "—"}</td>
                       <td className="px-3 py-3">{g.party_size}</td>
                       <td className="px-3 py-3">
                         {g.table_number
-                          ? <span className="rounded-full bg-gold/20 px-2.5 py-0.5 text-xs text-gold-light">Table {g.table_number}</span>
-                          : <span className="text-cream/30">—</span>}
+                          ? <span className="rounded-full bg-orange/15 px-2.5 py-0.5 text-xs text-orange">Table {g.table_number}</span>
+                          : <span className="text-ink/20">—</span>}
                       </td>
                       <td className="px-3 py-3">
                         <button
                           onClick={() => handleToggleCheckin(g)}
                           className={`rounded-full px-3 py-1 text-xs font-semibold transition-colors ${
                             g.checked_in
-                              ? "bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500/30"
-                              : "border border-cream/20 text-cream/40 hover:border-gold/40 hover:text-gold-light"
+                              ? "bg-emerald-100 text-emerald-700 hover:bg-emerald-200"
+                              : "border border-ink/15 text-ink/30 hover:border-orange/50 hover:text-orange"
                           }`}
                         >
                           {g.checked_in ? "✓ Arrivé" : "Absent"}
@@ -475,22 +475,22 @@ export default function AdminPage() {
                       <td className="px-5 py-3">
                         <div className="flex items-center justify-end gap-2">
                           <a href={`/invitation/${g.id}`} target="_blank" rel="noopener noreferrer"
-                            className="rounded-full border border-gold/40 px-3 py-1.5 text-xs text-gold-light transition-colors hover:bg-gold hover:text-ink">
+                            className="rounded-full border border-sand/60 px-3 py-1.5 text-xs text-ink-soft transition-colors hover:bg-orange hover:text-ivory">
                             Voir
                           </a>
                           <a href={`/api/invitation-image/${g.id}?download=1`}
-                            className="rounded-full border border-gold/40 px-3 py-1.5 text-xs text-gold-light transition-colors hover:bg-gold hover:text-ink">
+                            className="rounded-full border border-sand/60 px-3 py-1.5 text-xs text-ink-soft transition-colors hover:bg-orange hover:text-ivory">
                             PNG
                           </a>
                           <button
                             onClick={() => setEditingGuest(g)}
-                            className="rounded-full border border-gold/40 px-3 py-1.5 text-xs text-gold-light transition-colors hover:bg-gold hover:text-ink"
+                            className="rounded-full border border-sand/60 px-3 py-1.5 text-xs text-ink-soft transition-colors hover:bg-orange hover:text-ivory"
                             aria-label={`Modifier ${g.full_name}`}
                           >
                             ✎
                           </button>
                           <button onClick={() => handleDelete(g)}
-                            className="rounded-full border border-red-400/40 px-3 py-1.5 text-xs text-red-300 transition-colors hover:bg-red-500/20"
+                            className="rounded-full border border-red-300/60 px-3 py-1.5 text-xs text-red-500 transition-colors hover:bg-red-50"
                             aria-label={`Supprimer ${g.full_name}`}>
                             ✕
                           </button>
@@ -571,38 +571,38 @@ function EditModal({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4 backdrop-blur-sm"
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4 backdrop-blur-sm"
       onClick={e => { if (e.target === e.currentTarget) onClose(); }}>
-      <div className="w-full max-w-md rounded-3xl border border-gold/30 bg-deep p-8 shadow-2xl">
-        <h2 className="font-display text-2xl text-ivory">Modifier l&apos;invité</h2>
+      <div className="w-full max-w-md rounded-3xl border border-sand/50 bg-ivory p-8 shadow-2xl">
+        <h2 className="font-display text-2xl text-ink">Modifier l&apos;invité</h2>
         <form onSubmit={handleSubmit} className="mt-6 flex flex-col gap-4">
           <div>
-            <label className="mb-1.5 block text-xs uppercase tracking-wide-sm text-cream/60">Nom complet</label>
-            <input value={name} onChange={e => setName(e.target.value)} required className="rsvp-input w-full" />
+            <label className="mb-1.5 block text-xs uppercase tracking-wide-sm text-ink/50">Nom complet</label>
+            <input value={name} onChange={e => setName(e.target.value)} required className="admin-input w-full" />
           </div>
           <div>
-            <label className="mb-1.5 block text-xs uppercase tracking-wide-sm text-cream/60">Téléphone</label>
-            <input value={phone} onChange={e => setPhone(e.target.value)} className="rsvp-input w-full" />
+            <label className="mb-1.5 block text-xs uppercase tracking-wide-sm text-ink/50">Téléphone</label>
+            <input value={phone} onChange={e => setPhone(e.target.value)} className="admin-input w-full" />
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="mb-1.5 block text-xs uppercase tracking-wide-sm text-cream/60">Personnes</label>
-              <select value={size} onChange={e => setSize(parseInt(e.target.value, 10))} className="rsvp-input w-full">
+              <label className="mb-1.5 block text-xs uppercase tracking-wide-sm text-ink/50">Personnes</label>
+              <select value={size} onChange={e => setSize(parseInt(e.target.value, 10))} className="admin-input w-full">
                 {[1,2,3,4,5,6,7,8,9,10,12,15,20].map(n => (
                   <option key={n} value={n}>{n} pers.</option>
                 ))}
               </select>
             </div>
             <div>
-              <label className="mb-1.5 block text-xs uppercase tracking-wide-sm text-cream/60">N° de table</label>
+              <label className="mb-1.5 block text-xs uppercase tracking-wide-sm text-ink/50">N° de table</label>
               <input value={table} onChange={e => setTable(e.target.value)}
-                type="number" min="1" placeholder="—" className="rsvp-input w-full" />
+                type="number" min="1" placeholder="—" className="admin-input w-full" />
             </div>
           </div>
           {guest.message && (
             <div>
-              <label className="mb-1.5 block text-xs uppercase tracking-wide-sm text-cream/60">Message RSVP</label>
-              <p className="rounded-xl border border-gold/20 bg-deep/50 px-4 py-3 text-sm italic text-cream/70">
+              <label className="mb-1.5 block text-xs uppercase tracking-wide-sm text-ink/50">Message RSVP</label>
+              <p className="rounded-xl border border-sand/40 bg-cream/60 px-4 py-3 text-sm italic text-ink/55">
                 &ldquo;{guest.message}&rdquo;
               </p>
             </div>
@@ -611,7 +611,7 @@ function EditModal({
             <button type="submit" className="btn-gold flex-1" disabled={saving}>
               {saving ? "Enregistrement…" : "Enregistrer"}
             </button>
-            <button type="button" onClick={onClose} className="btn-outline flex-1">Annuler</button>
+            <button type="button" onClick={onClose} className="btn-outline-dark flex-1">Annuler</button>
           </div>
         </form>
       </div>
@@ -706,11 +706,11 @@ function QrScanner({
 
   return (
     <div className="flex flex-col items-center gap-6">
-      <p className="text-center text-sm text-cream/60">
+      <p className="text-center text-sm text-ink/50">
         Pointez la caméra sur le QR code d&apos;une invitation pour enregistrer l&apos;arrivée.
       </p>
 
-      <div className="relative w-full max-w-sm overflow-hidden rounded-3xl border-2 border-gold/40 bg-black shadow-2xl">
+      <div className="relative w-full max-w-sm overflow-hidden rounded-3xl border-2 border-sand/60 bg-black shadow-2xl">
         {/* Vidéo */}
         <video ref={videoRef} className="w-full" playsInline muted />
         <canvas ref={canvasRef} className="hidden" />
@@ -718,7 +718,7 @@ function QrScanner({
         {/* Viseur */}
         {camStatus === "scanning" && (
           <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-            <div className="h-52 w-52 rounded-2xl border-2 border-gold/70 shadow-[0_0_0_9999px_rgba(0,0,0,0.35)]" />
+            <div className="h-52 w-52 rounded-2xl border-2 border-gold-light/70 shadow-[0_0_0_9999px_rgba(0,0,0,0.35)]" />
           </div>
         )}
 
@@ -765,8 +765,8 @@ function QrScanner({
       </div>
 
       {camStatus === "scanning" && (
-        <p className="flex items-center gap-2 text-xs text-cream/50">
-          <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-emerald-400" />
+        <p className="flex items-center gap-2 text-xs text-ink/40">
+          <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-emerald-500" />
           Scan en cours…
         </p>
       )}
@@ -795,6 +795,7 @@ function PhotosTab({
 }) {
   const davidRef = useRef<HTMLInputElement>(null);
   const manuellaRef = useRef<HTMLInputElement>(null);
+  const heroRef = useRef<HTMLInputElement>(null);
   const galleryRef = useRef<HTMLInputElement>(null);
 
   async function upload(file: File, folder: string, name: string) {
@@ -821,23 +822,24 @@ function PhotosTab({
     onRefresh();
   }
 
-  if (!data) return <p className="mt-12 text-center text-cream/50">Chargement des photos…</p>;
+  if (!data) return <p className="mt-12 text-center text-ink/40">Chargement des photos…</p>;
 
   const coupleSlots = [
     { label: "David", key: "david" as const, ref: davidRef, url: data.couple.david },
     { label: "Manuella", key: "manuella" as const, ref: manuellaRef, url: data.couple.manuella },
+    { label: "Photo héro (accueil)", key: "hero" as const, ref: heroRef, url: data.couple.hero },
   ];
 
   return (
     <div className="mt-8 space-y-10">
       {/* Photos du couple */}
       <section>
-        <h2 className="font-display text-2xl text-ivory">Photos du couple</h2>
-        <p className="mt-1 text-xs text-cream/50">Affichées dans la section « Les futurs époux » du site.</p>
-        <div className="mt-6 grid gap-6 sm:grid-cols-2">
+        <h2 className="font-display text-2xl text-ink">Photos du couple</h2>
+        <p className="mt-1 text-xs text-ink/45">Affichées dans la section « Les futurs époux » du site. La photo héro apparaît dans le bandeau d&apos;accueil.</p>
+        <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {coupleSlots.map(({ label, key, ref, url }) => (
-            <div key={key} className="rounded-2xl border border-gold/25 bg-orange/8 p-5">
-              <p className="mb-3 text-sm font-semibold text-ivory">{label}</p>
+            <div key={key} className="rounded-2xl border border-sand/50 bg-cream/50 p-5">
+              <p className="mb-3 text-sm font-semibold text-ink">{label}</p>
               {url ? (
                 <div className="relative">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -845,14 +847,14 @@ function PhotosTab({
                   <div className="mt-3 flex gap-2">
                     <button
                       onClick={() => ref.current?.click()}
-                      className="btn-outline !px-4 !py-2 text-[0.7rem] flex-1"
+                      className="btn-outline-dark !px-4 !py-2 text-[0.7rem] flex-1"
                       disabled={busy}
                     >
                       Remplacer
                     </button>
                     <button
                       onClick={() => deletePhoto(url)}
-                      className="rounded-full border border-red-400/40 px-4 py-2 text-xs text-red-300 hover:bg-red-500/20"
+                      className="rounded-full border border-red-300/60 px-4 py-2 text-xs text-red-500 hover:bg-red-50"
                       disabled={busy}
                     >
                       ✕
@@ -862,7 +864,7 @@ function PhotosTab({
               ) : (
                 <button
                   onClick={() => ref.current?.click()}
-                  className="flex h-40 w-full flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-gold/30 text-cream/40 transition-colors hover:border-gold/60 hover:text-cream/70"
+                  className="flex h-40 w-full flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-sand/60 text-ink/30 transition-colors hover:border-orange/50 hover:text-ink/55"
                   disabled={busy}
                 >
                   <svg viewBox="0 0 24 24" className="h-8 w-8" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -887,8 +889,8 @@ function PhotosTab({
       <section>
         <div className="flex items-center justify-between gap-4">
           <div>
-            <h2 className="font-display text-2xl text-ivory">Galerie</h2>
-            <p className="mt-1 text-xs text-cream/50">Affichées dans la section Galerie du site.</p>
+            <h2 className="font-display text-2xl text-ink">Galerie</h2>
+            <p className="mt-1 text-xs text-ink/45">Affichées dans la section Galerie du site.</p>
           </div>
           <button
             onClick={() => galleryRef.current?.click()}
@@ -911,13 +913,13 @@ function PhotosTab({
           }}
         />
         {data.gallery.length === 0 ? (
-          <div className="mt-6 flex h-40 items-center justify-center rounded-2xl border-2 border-dashed border-gold/25 text-cream/40">
+          <div className="mt-6 flex h-40 items-center justify-center rounded-2xl border-2 border-dashed border-sand/50 text-ink/35">
             <p className="text-sm">Aucune photo dans la galerie</p>
           </div>
         ) : (
           <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
             {data.gallery.map((url, i) => (
-              <div key={url} className="group relative aspect-square overflow-hidden rounded-xl border border-gold/20">
+              <div key={url} className="group relative aspect-square overflow-hidden rounded-xl border border-sand/40">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={url} alt={`Galerie ${i + 1}`} className="h-full w-full object-cover" />
                 <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 transition-opacity group-hover:opacity-100">
@@ -943,10 +945,10 @@ function PhotosTab({
 
 function Shell({ children, wide = false }: { children: React.ReactNode; wide?: boolean }) {
   return (
-    <main className="min-h-screen bg-wax-dark">
+    <main className="min-h-screen bg-ivory">
       <KenteBand />
       <div className={`mx-auto px-5 py-12 ${wide ? "max-w-5xl" : "max-w-2xl pt-24"}`}>
-        <p className="mb-8 text-center font-display text-2xl tracking-wide-sm text-gold-light">{monogram}</p>
+        <p className="mb-8 text-center font-display text-2xl tracking-wide-sm text-orange">{monogram}</p>
         {children}
       </div>
     </main>
@@ -968,12 +970,12 @@ function SortTh({
   const active = current === field;
   return (
     <th
-      className={`cursor-pointer select-none hover:text-gold-light ${className ?? ""}`}
+      className={`cursor-pointer select-none hover:text-orange ${className ?? ""}`}
       onClick={() => onSort(field)}
     >
       <span className="inline-flex items-center gap-1">
         {children}
-        <span className={`text-[10px] ${active ? "text-gold" : "text-cream/20"}`}>
+        <span className={`text-[10px] ${active ? "text-orange" : "text-ink/20"}`}>
           {active ? (dir === "asc" ? "▲" : "▼") : "⇅"}
         </span>
       </span>
@@ -983,9 +985,9 @@ function SortTh({
 
 function Stat({ label, value }: { label: string; value: number }) {
   return (
-    <div className="rounded-2xl border border-gold/25 bg-orange/8 p-5 text-center">
-      <p className="font-display text-4xl text-gold-light">{value}</p>
-      <p className="mt-1 text-[0.65rem] uppercase tracking-wide-sm text-cream/60">{label}</p>
+    <div className="rounded-2xl border border-sand/50 bg-cream/50 p-5 text-center">
+      <p className="font-display text-4xl text-orange">{value}</p>
+      <p className="mt-1 text-[0.65rem] uppercase tracking-wide-sm text-ink/50">{label}</p>
     </div>
   );
 }

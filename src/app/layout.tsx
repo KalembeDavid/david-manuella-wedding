@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Jost, Parisienne } from "next/font/google";
+import { Cormorant_Garamond, Jost, Great_Vibes } from "next/font/google";
 import "./globals.css";
 import { wedding } from "@/lib/wedding";
 
@@ -17,7 +17,7 @@ const sans = Jost({
   display: "swap",
 });
 
-const script = Parisienne({
+const script = Great_Vibes({
   variable: "--font-script",
   subsets: ["latin"],
   weight: ["400"],
@@ -25,11 +25,11 @@ const script = Parisienne({
 });
 
 export const metadata: Metadata = {
-  title: `${wedding.groom.firstName} & ${wedding.bride.firstName} — ${wedding.dateLabel}`,
-  description: `Faire-part de mariage de ${wedding.groom.firstName} & ${wedding.bride.firstName}. ${wedding.dateLabel} à ${wedding.venue}, ${wedding.city}. Confirmez votre présence.`,
+  title: `${wedding.groom.firstName} & ${wedding.bride.firstName} — Mariage coutumier · ${wedding.dateLabel}`,
+  description: `${wedding.groom.firstName} & ${wedding.bride.firstName} ont la joie de vous convier à leur mariage coutumier, le ${wedding.dayLabel.toLowerCase()} ${wedding.dateLabel} à ${wedding.timeLabel}, ${wedding.venue} — ${wedding.city}. Confirmez votre présence et laissez-leur un mot.`,
   openGraph: {
     title: `${wedding.groom.firstName} & ${wedding.bride.firstName} se marient`,
-    description: `${wedding.dateLabel} · ${wedding.venue}, ${wedding.city}`,
+    description: `${wedding.dayLabel} ${wedding.dateLabel} · ${wedding.timeLabel} · ${wedding.venue}, ${wedding.city}`,
     type: "website",
   },
 };

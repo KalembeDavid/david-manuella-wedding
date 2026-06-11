@@ -6,15 +6,15 @@ import { wedding, monogram } from "@/lib/wedding";
 
 export const runtime = "nodejs";
 
-/* Palette du site (cf. globals.css) */
-const DEEP = "#4b352a";
-const DEEP_ALT = "#a77f60";
-const QR_INK = "#1a0e05";
-const ORANGE = "#ef6c14";
-const GOLD = "#d8a838";
-const GOLD_LIGHT = "#f1d684";
-const IVORY = "#fbf6ec";
-const CREAM = "#f5ead5";
+/* Palette du site (cf. globals.css — thème « Noir & Or ») */
+const DEEP = "#15100a";
+const DEEP_ALT = "#2c2415";
+const QR_INK = "#131008";
+const ORANGE = "#c49a2c";
+const GOLD = "#c49a2c";
+const GOLD_LIGHT = "#e9cf8e";
+const IVORY = "#faf6ee";
+const CREAM = "#f1e8d6";
 
 const WIDTH = 1080;
 const HEIGHT = 1528;
@@ -116,7 +116,7 @@ export async function GET(
       color: { dark: QR_INK, light: `${IVORY}ff` },
     }),
     loadGoogleFont("Cormorant Garamond", 600),
-    loadGoogleFont("Parisienne", 400),
+    loadGoogleFont("Great Vibes", 400),
   ]);
 
   const fonts: { name: string; data: ArrayBuffer; weight: 400 | 600; style: "normal" }[] = [];
@@ -268,7 +268,7 @@ export async function GET(
               textTransform: "uppercase",
             }}
           >
-            {wedding.dayLabel} {wedding.dateLabel}
+            {wedding.dayLabel} {wedding.dateLabel} · {wedding.timeLabel}
           </div>
           <div style={{ display: "flex", fontSize: 30, color: `${CREAM}cc`, marginTop: 10 }}>
             {wedding.venue} · {wedding.city} · {wedding.country}

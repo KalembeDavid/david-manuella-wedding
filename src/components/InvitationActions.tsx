@@ -11,7 +11,7 @@ export default function InvitationActions({
   name: string;
   downloadUrl: string;
 }) {
-  const text = `${name}, vous êtes invité(e) au mariage coutumier de ${wedding.groom.firstName} & ${wedding.bride.firstName} le ${wedding.dateLabel} à ${wedding.venue}, ${wedding.city}. Voici votre invitation : ${url}`;
+  const text = `${name}, vous êtes invité(e) au mariage coutumier de ${wedding.groom.firstName} & ${wedding.bride.firstName} le ${wedding.dayLabel.toLowerCase()} ${wedding.dateLabel} à ${wedding.timeLabel}, ${wedding.venue} (${wedding.city}). Voici votre invitation : ${url}`;
   const whatsapp = `https://wa.me/?text=${encodeURIComponent(text)}`;
 
   return (
@@ -23,7 +23,7 @@ export default function InvitationActions({
         href={whatsapp}
         target="_blank"
         rel="noopener noreferrer"
-        className="btn-outline"
+        className="btn-outline-dark"
       >
         Partager sur WhatsApp
       </a>

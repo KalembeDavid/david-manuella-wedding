@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { wedding } from "@/lib/wedding";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
@@ -17,7 +16,6 @@ export default function RsvpForm() {
     const payload = {
       fullName: fd.get("fullName"),
       phone: fd.get("phone"),
-      partySize: fd.get("partySize"),
       message: fd.get("message"),
     };
     setName(String(payload.fullName || ""));
@@ -60,12 +58,12 @@ export default function RsvpForm() {
             <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" />
           </svg>
         </div>
-        <p className="font-script text-3xl text-gold-light">
+        <p className="font-script text-4xl text-gold-light">
           Merci{name ? `, ${name.split(" ")[0]}` : ""}&nbsp;!
         </p>
-        <p className="mt-4 text-cream/80">
-          Votre présence est bien notée. Nous avons hâte de célébrer ce jour
-          avec vous.
+        <p className="mt-4 leading-relaxed text-cream/80">
+          Votre mot est arrivé jusqu&apos;à nous et votre présence est bien
+          notée. Nous avons hâte de partager ce jour béni avec vous.
         </p>
         <button
           onClick={() => setStatus("idle")}
@@ -81,16 +79,16 @@ export default function RsvpForm() {
   return (
     <form onSubmit={handleSubmit} className="mx-auto max-w-xl text-left">
       <div className="grid gap-6 sm:grid-cols-2">
-        <Field label="Nom complet *" className="sm:col-span-2">
+        <Field label="Votre nom complet *">
           <input
             name="fullName"
             required
-            placeholder="Votre nom et prénom"
+            placeholder="Nom et prénom"
             className="rsvp-input"
           />
         </Field>
 
-        <Field label="Téléphone">
+        <Field label="Votre téléphone">
           <input
             name="phone"
             type="tel"
@@ -99,21 +97,11 @@ export default function RsvpForm() {
           />
         </Field>
 
-        <Field label="Nombre de personnes *">
-          <select name="partySize" required defaultValue="1" className="rsvp-input">
-            {[1, 2, 3, 4, 5].map((n) => (
-              <option key={n} value={n}>
-                {n} {n === 1 ? "personne" : "personnes"}
-              </option>
-            ))}
-          </select>
-        </Field>
-
-        <Field label="Un petit mot pour les mariés" className="sm:col-span-2">
+        <Field label="Votre mot pour les mariés" className="sm:col-span-2">
           <textarea
             name="message"
-            rows={3}
-            placeholder="Vos vœux, un message… (facultatif)"
+            rows={5}
+            placeholder="Vos vœux de bonheur, une bénédiction, un souvenir partagé…"
             className="rsvp-input resize-none"
           />
         </Field>
@@ -125,11 +113,8 @@ export default function RsvpForm() {
 
       <div className="mt-8 text-center">
         <button type="submit" className="btn-gold" disabled={status === "submitting"}>
-          {status === "submitting" ? "Envoi en cours…" : "Confirmer ma présence"}
+          {status === "submitting" ? "Envoi en cours…" : "Envoyer"}
         </button>
-        <p className="mt-4 text-xs text-cream/50">
-          Merci de répondre avant le {wedding.rsvpDeadlineLabel}.
-        </p>
       </div>
     </form>
   );

@@ -4,11 +4,10 @@ import { useEffect, useState } from "react";
 import { monogram } from "@/lib/wedding";
 
 const LINKS = [
-  { href: "#accueil", label: "Accueil" },
-  { href: "#invitation", label: "Invitation" },
-  { href: "#ceremonies", label: "Cérémonies" },
+  { href: "#notre-histoire", label: "Notre histoire" },
+  { href: "#ceremonies", label: "Le grand jour" },
   { href: "#galerie", label: "Galerie" },
-  { href: "#rsvp", label: "Confirmer" },
+  { href: "#rsvp", label: "Un mot pour nous" },
 ];
 
 export default function Nav() {
@@ -33,19 +32,25 @@ export default function Nav() {
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4 sm:px-8">
         <a
           href="#accueil"
-          className="font-display text-xl tracking-wide-sm text-gold-light"
+          className={`font-display text-xl tracking-wide-sm transition-colors duration-300 ${
+            scrolled ? "text-gold-light" : "text-ink/80"
+          }`}
           aria-label="Retour en haut"
         >
           {monogram}
         </a>
 
         {/* Liens desktop */}
-        <ul className="hidden items-center gap-8 md:flex">
+        <ul className="hidden items-center gap-6 md:flex lg:gap-8">
           {LINKS.map((l) => (
             <li key={l.href}>
               <a
                 href={l.href}
-                className="nav-link text-xs uppercase tracking-wide-sm text-cream/80 transition-colors hover:text-gold-light"
+                className={`nav-link whitespace-nowrap text-xs uppercase tracking-wide-sm transition-colors duration-300 ${
+                  scrolled
+                    ? "text-cream/80 hover:text-gold-light"
+                    : "text-ink/65 hover:text-gold"
+                }`}
               >
                 {l.label}
               </a>
@@ -61,19 +66,19 @@ export default function Nav() {
           aria-expanded={open}
         >
           <span
-            className={`h-px w-6 bg-gold-light transition-transform duration-300 ${
-              open ? "translate-y-[7px] rotate-45" : ""
-            }`}
+            className={`h-px w-6 transition-all duration-300 ${
+              scrolled ? "bg-gold-light" : "bg-ink/65"
+            } ${open ? "translate-y-[7px] rotate-45" : ""}`}
           />
           <span
-            className={`h-px w-6 bg-gold-light transition-opacity duration-300 ${
-              open ? "opacity-0" : ""
-            }`}
+            className={`h-px w-6 transition-all duration-300 ${
+              scrolled ? "bg-gold-light" : "bg-ink/65"
+            } ${open ? "opacity-0" : ""}`}
           />
           <span
-            className={`h-px w-6 bg-gold-light transition-transform duration-300 ${
-              open ? "-translate-y-[7px] -rotate-45" : ""
-            }`}
+            className={`h-px w-6 transition-all duration-300 ${
+              scrolled ? "bg-gold-light" : "bg-ink/65"
+            } ${open ? "-translate-y-[7px] -rotate-45" : ""}`}
           />
         </button>
       </nav>

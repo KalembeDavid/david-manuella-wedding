@@ -14,8 +14,9 @@ export function pathFromUrl(url: string): string {
 export async function getCouplePhotos(): Promise<{
   david: string | null;
   manuella: string | null;
+  hero: string | null;
 }> {
-  if (!isSupabaseConfigured()) return { david: null, manuella: null };
+  if (!isSupabaseConfigured()) return { david: null, manuella: null, hero: null };
   try {
     const { data } = await getSupabaseAdmin()
       .storage.from(PHOTO_BUCKET)
@@ -25,9 +26,9 @@ export async function getCouplePhotos(): Promise<{
       const f = files.find(f => f.name.startsWith(prefix));
       return f ? getPhotoUrl(`couple/${f.name}`) : null;
     };
-    return { david: find("david"), manuella: find("manuella") };
+    return { david: find("david"), manuella: find("manuella"), hero: find("hero") };
   } catch {
-    return { david: null, manuella: null };
+    return { david: null, manuella: null, hero: null };
   }
 }
 

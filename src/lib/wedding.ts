@@ -12,17 +12,19 @@ export const wedding = {
   groom: {
     firstName: "David",
     family: "Famille Kalembe Kangandjo",
+    role: "Le futur époux",
   },
   bride: {
     firstName: "Manuella",
     family: "Famille Kapapa Mukanda Bantu",
+    role: "La future épouse",
   },
 
-  // Date principale de la célébration (format ISO : AAAA-MM-JJTHH:MM:SS)
-  // Sert au compte à rebours. Ajuste l'heure quand elle sera connue.
-  date: "2026-06-20T17:00:00",
+  // Date et heure de la célébration (format ISO : AAAA-MM-JJTHH:MM:SS)
+  date: "2026-06-20T15:00:00",
   dateLabel: "20 Juin 2026",
   dayLabel: "Samedi",
+  timeLabel: "15h00",
 
   // Lieu
   city: "Kolwezi",
@@ -31,25 +33,28 @@ export const wedding = {
   // Lien Google Maps (remplace par le lien exact du lieu quand tu l'as)
   mapsQuery: "Katebi, Kolwezi",
 
-  // Phrase d'invitation (ton coutumier / traditionnel)
-  invitationLead:
-    "Selon la coutume et avec la bénédiction de nos familles,",
-  invitationBody:
-    "nos deux familles s'unissent pour célébrer notre mariage traditionnel. Nous vous convions à partager cette journée de dot, d'union et de réjouissances. Votre présence sera notre plus grande joie.",
+  // Verset — un amour sincère et divin (affiché une seule fois, sur le bandeau d'or)
+  blessing: "Ce que Dieu a uni, que l'homme ne le sépare point.",
+  blessingRef: "Matthieu 19, 6",
 
-  // La cérémonie traditionnelle (mariage coutumier).
-  // Mets "time" à null tant que l'heure n'est pas confirmée.
+  // Faire-part — l'annonce officielle
+  invitationLead: "Avec la bénédiction de Dieu et de leurs familles,",
+  invitationBody:
+    "ont la joie de vous convier au mariage coutumier de leurs enfants et de vous accueillir parmi eux pour sceller, selon la tradition, l'union de leurs deux familles.",
+  invitationClose: "Votre présence est notre plus beau cadeau.",
+
+  // La cérémonie traditionnelle (mariage coutumier)
   ceremony: {
     title: "Mariage Coutumier",
     subtitle: "L'union de nos deux familles selon la tradition",
-    date: "20 Juin 2026",
-    time: "17h00" as string | null,
+    date: "Samedi 20 Juin 2026",
+    time: "15h00" as string | null,
     venue: "Katebi",
     city: "Kolwezi",
   },
 
   // Date limite pour confirmer sa présence
-  rsvpDeadlineLabel: "20 Juin 2026",
+  rsvpDeadlineLabel: "15 Juin 2026",
 
   // Contact (optionnel — affiché en bas de page)
   contact: {
@@ -63,6 +68,15 @@ export type Ceremony = typeof wedding.ceremony;
 /** Lien Google Maps prêt à l'emploi */
 export const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
   wedding.mapsQuery
+)}`;
+
+/** Lien « Ajouter à Google Agenda » (cérémonie de 15h00 à 21h00, heure de Kolwezi) */
+export const calendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(
+  `Mariage coutumier — ${wedding.groom.firstName} & ${wedding.bride.firstName}`
+)}&dates=20260620T150000/20260620T210000&ctz=Africa/Lubumbashi&location=${encodeURIComponent(
+  `${wedding.venue}, ${wedding.city}`
+)}&details=${encodeURIComponent(
+  `Célébration du mariage coutumier de ${wedding.groom.firstName} & ${wedding.bride.firstName}.`
 )}`;
 
 /** Monogramme court, ex. "D & M" */

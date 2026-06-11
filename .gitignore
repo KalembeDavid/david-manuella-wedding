@@ -42,6 +42,21 @@ yarn-error.log*
 # captures d'écran déposées à la racine (ex. partages WhatsApp)
 /WhatsApp Image*
 
+# fichiers de référence et images déposées à la racine (maquettes, palettes…)
+/*.png
+/*.jpg
+/*.jpeg
+/*.webp
+/*.avif
+/*.gif
+
+# fichiers HTML de référence déposés à la racine
+/*.html
+/*_files/
+
+# données invités — ne jamais versionner (données personnelles)
+/*.csv
+
 # fichiers parasites (installeurs, dossiers temporaires de navigateur)
 *.exe
 /scoped_dir*/
@@ -49,3 +64,5 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+.vercel
