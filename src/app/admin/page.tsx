@@ -8,7 +8,11 @@ import type { Guest } from "@/lib/supabaseAdmin";
 import { KenteBand } from "@/components/Motifs";
 
 type View = "loading" | "login" | "unconfigured" | "ready";
-type Tab = "guests" | "scanner";
+type Tab = "guests" | "scanner" | "photos";
+type PhotoData = {
+  couple: { david: string | null; manuella: string | null };
+  gallery: string[];
+};
 type CsvRow = { full_name: string; phone: string | null; party_size: number };
 
 const NAME_KEYS = ["nom", "name", "fullname", "full_name", "invite", "invitee", "nomcomplet"];
@@ -48,6 +52,9 @@ export default function AdminPage() {
   const [busy, setBusy] = useState(false);
   const [activeTab, setActiveTab] = useState<Tab>("guests");
   const [editingGuest, setEditingGuest] = useState<Guest | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [photoData, setPhotoData] = useState<PhotoData | null>(null);
+  const [photoBusy, setPhotoBusy] = useState(false);
 
   const [password, setPassword] = useState("");
 
@@ -59,6 +66,26 @@ export default function AdminPage() {
   const fileRef = useRef<HTMLInputElement>(null);
   const [csvRows, setCsvRows] = useState<CsvRow[] | null>(null);
   const [csvName, setCsvName] = useState("");
+
+  const refreshPhotos = useCallback(async () => {
+    const res = await fetch("/api/admin/photos");
+    if (res.ok) setPhotoData(await res.json());
+  }, []);
+
+  useEffect(() => {
+    if (activeTab === "photos" && !photoData) refreshPhotos();
+  }, [activeTab, photoData, refreshPhotos]);
+
+  const filteredGuests = useMemo(() => {
+    const q = searchQuery.trim().toLowerCase();
+    if (!q) return guests;
+    return guests.filter(
+      g =>
+        g.full_name.toLowerCase().includes(q) ||
+        (g.phone && g.phone.includes(q)) ||
+        (g.table_number != null && String(g.table_number).includes(q))
+    );
+  }, [guests, searchQuery]);
 
   const refresh = useCallback(async () => {
     setError("");
@@ -251,7 +278,7 @@ export default function AdminPage() {
 
       {/* Onglets */}
       <div className="mt-8 flex gap-2 border-b border-gold/20">
-        {(["guests", "scanner"] as Tab[]).map(tab => (
+        {(["guests", "scanner", "photos"] as Tab[]).map(tab => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
@@ -261,7 +288,7 @@ export default function AdminPage() {
                 : "text-cream/50 hover:text-cream/80"
             }`}
           >
-            {tab === "guests" ? "Invités" : "Scanner QR"}
+            {tab === "guests" ? "Invités" : tab === "scanner" ? "Scanner QR" : "Photos"}
           </button>
         ))}
       </div>
@@ -327,8 +354,29 @@ export default function AdminPage() {
             </section>
           </div>
 
+          {/* Barre de recherche */}
+          <div className="mt-6 relative">
+            <input
+              value={searchQuery}
+              onChange={e => setSearchQuery(e.target.value)}
+              placeholder="Rechercher un invité, téléphone ou n° de table…"
+              className="rsvp-input w-full pl-10"
+            />
+            <svg className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-cream/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="11" cy="11" r="8"/><path strokeLinecap="round" d="m21 21-4.35-4.35"/>
+            </svg>
+            {searchQuery && (
+              <button onClick={() => setSearchQuery("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-cream/40 hover:text-cream/70 text-lg leading-none">×</button>
+            )}
+          </div>
+          {searchQuery && (
+            <p className="mt-2 text-xs text-cream/50">
+              {filteredGuests.length} résultat{filteredGuests.length !== 1 ? "s" : ""} sur {guests.length} invités
+            </p>
+          )}
+
           {/* Liste des invités */}
-          <section className="mt-8 overflow-hidden rounded-2xl border border-gold/25 bg-orange/8">
+          <section className="mt-4 overflow-hidden rounded-2xl border border-gold/25 bg-orange/8">
             <div className="overflow-x-auto">
               <table className="w-full min-w-[760px] text-left text-sm">
                 <thead>
@@ -349,7 +397,14 @@ export default function AdminPage() {
                       </td>
                     </tr>
                   )}
-                  {guests.map(g => (
+                  {guests.length > 0 && filteredGuests.length === 0 && (
+                    <tr>
+                      <td colSpan={6} className="px-5 py-10 text-center text-cream/50">
+                        Aucun résultat pour « {searchQuery} ».
+                      </td>
+                    </tr>
+                  )}
+                  {filteredGuests.map(g => (
                     <tr key={g.id} className="border-b border-gold/10 text-cream/85 hover:bg-orange/10">
                       <td className="px-5 py-3 font-medium text-ivory">{g.full_name}</td>
                       <td className="px-3 py-3 text-cream/70">{g.phone || "—"}</td>
@@ -409,6 +464,18 @@ export default function AdminPage() {
         <div className="mt-8">
           <QrScanner onCheckin={handleCheckin} guests={guests} />
         </div>
+      )}
+
+      {/* ── Onglet Photos ── */}
+      {activeTab === "photos" && (
+        <PhotosTab
+          data={photoData}
+          busy={photoBusy}
+          setBusy={setPhotoBusy}
+          setError={setError}
+          setNotice={setNotice}
+          onRefresh={refreshPhotos}
+        />
       )}
 
       {/* Modal d'édition */}
@@ -649,6 +716,171 @@ function QrScanner({
           Scan en cours…
         </p>
       )}
+    </div>
+  );
+}
+
+/* ─────────── Onglet Photos ─────────── */
+
+const BUCKET_PREFIX = `/storage/v1/object/public/wedding-photos/`;
+
+function PhotosTab({
+  data,
+  busy,
+  setBusy,
+  setError,
+  setNotice,
+  onRefresh,
+}: {
+  data: PhotoData | null;
+  busy: boolean;
+  setBusy: (v: boolean) => void;
+  setError: (v: string) => void;
+  setNotice: (v: string) => void;
+  onRefresh: () => void;
+}) {
+  const davidRef = useRef<HTMLInputElement>(null);
+  const manuellaRef = useRef<HTMLInputElement>(null);
+  const galleryRef = useRef<HTMLInputElement>(null);
+
+  async function upload(file: File, folder: string, name: string) {
+    setBusy(true);
+    setError("");
+    const form = new FormData();
+    form.append("file", file);
+    form.append("folder", folder);
+    form.append("name", name);
+    const res = await fetch("/api/admin/photos", { method: "POST", body: form });
+    setBusy(false);
+    if (!res.ok) { setError("Upload impossible."); return; }
+    setNotice("Photo enregistrée ✓");
+    onRefresh();
+  }
+
+  async function deletePhoto(url: string) {
+    if (!confirm("Supprimer cette photo ?")) return;
+    const path = url.split(BUCKET_PREFIX)[1];
+    if (!path) return;
+    const res = await fetch(`/api/admin/photos/${path}`, { method: "DELETE" });
+    if (!res.ok) { setError("Suppression impossible."); return; }
+    setNotice("Photo supprimée ✓");
+    onRefresh();
+  }
+
+  if (!data) return <p className="mt-12 text-center text-cream/50">Chargement des photos…</p>;
+
+  const coupleSlots = [
+    { label: "David", key: "david" as const, ref: davidRef, url: data.couple.david },
+    { label: "Manuella", key: "manuella" as const, ref: manuellaRef, url: data.couple.manuella },
+  ];
+
+  return (
+    <div className="mt-8 space-y-10">
+      {/* Photos du couple */}
+      <section>
+        <h2 className="font-display text-2xl text-ivory">Photos du couple</h2>
+        <p className="mt-1 text-xs text-cream/50">Affichées dans la section « Les futurs époux » du site.</p>
+        <div className="mt-6 grid gap-6 sm:grid-cols-2">
+          {coupleSlots.map(({ label, key, ref, url }) => (
+            <div key={key} className="rounded-2xl border border-gold/25 bg-orange/8 p-5">
+              <p className="mb-3 text-sm font-semibold text-ivory">{label}</p>
+              {url ? (
+                <div className="relative">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={url} alt={label} className="h-52 w-full rounded-xl object-cover" />
+                  <div className="mt-3 flex gap-2">
+                    <button
+                      onClick={() => ref.current?.click()}
+                      className="btn-outline !px-4 !py-2 text-[0.7rem] flex-1"
+                      disabled={busy}
+                    >
+                      Remplacer
+                    </button>
+                    <button
+                      onClick={() => deletePhoto(url)}
+                      className="rounded-full border border-red-400/40 px-4 py-2 text-xs text-red-300 hover:bg-red-500/20"
+                      disabled={busy}
+                    >
+                      ✕
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <button
+                  onClick={() => ref.current?.click()}
+                  className="flex h-40 w-full flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-gold/30 text-cream/40 transition-colors hover:border-gold/60 hover:text-cream/70"
+                  disabled={busy}
+                >
+                  <svg viewBox="0 0 24 24" className="h-8 w-8" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
+                  </svg>
+                  <span className="text-xs">Ajouter une photo</span>
+                </button>
+              )}
+              <input
+                ref={ref}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={e => { const f = e.target.files?.[0]; if (f) upload(f, "couple", key); e.target.value = ""; }}
+              />
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Galerie */}
+      <section>
+        <div className="flex items-center justify-between gap-4">
+          <div>
+            <h2 className="font-display text-2xl text-ivory">Galerie</h2>
+            <p className="mt-1 text-xs text-cream/50">Affichées dans la section Galerie du site.</p>
+          </div>
+          <button
+            onClick={() => galleryRef.current?.click()}
+            className="btn-gold !px-5 !py-2.5 text-[0.7rem]"
+            disabled={busy}
+          >
+            + Ajouter
+          </button>
+        </div>
+        <input
+          ref={galleryRef}
+          type="file"
+          accept="image/*"
+          multiple
+          className="hidden"
+          onChange={e => {
+            const files = Array.from(e.target.files ?? []);
+            files.forEach(f => upload(f, "gallery", ""));
+            e.target.value = "";
+          }}
+        />
+        {data.gallery.length === 0 ? (
+          <div className="mt-6 flex h-40 items-center justify-center rounded-2xl border-2 border-dashed border-gold/25 text-cream/40">
+            <p className="text-sm">Aucune photo dans la galerie</p>
+          </div>
+        ) : (
+          <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+            {data.gallery.map((url, i) => (
+              <div key={url} className="group relative aspect-square overflow-hidden rounded-xl border border-gold/20">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={url} alt={`Galerie ${i + 1}`} className="h-full w-full object-cover" />
+                <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 transition-opacity group-hover:opacity-100">
+                  <button
+                    onClick={() => deletePhoto(url)}
+                    className="rounded-full bg-red-500/80 p-2 text-white hover:bg-red-600"
+                  >
+                    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
     </div>
   );
 }

@@ -1,8 +1,10 @@
+import Image from "next/image";
 import Nav from "@/components/Nav";
 import Countdown from "@/components/Countdown";
 import RsvpForm from "@/components/RsvpForm";
 import Reveal from "@/components/Reveal";
 import { wedding, monogram, mapsUrl } from "@/lib/wedding";
+import { getCouplePhotos, getGalleryPhotos } from "@/lib/photos";
 import {
   MotifDivider,
   KenteBand,
@@ -165,10 +167,11 @@ function Invitation() {
 }
 
 /* ───────────────────────────── COUPLE ───────────────────────────── */
-function Couple() {
+async function Couple() {
+  const photos = await getCouplePhotos();
   const portraits = [
-    { name: wedding.groom.firstName, family: wedding.groom.family },
-    { name: wedding.bride.firstName, family: wedding.bride.family },
+    { name: wedding.groom.firstName, family: wedding.groom.family, photo: photos.david },
+    { name: wedding.bride.firstName, family: wedding.bride.family, photo: photos.manuella },
   ];
   return (
     <section id="couple" className="relative overflow-hidden bg-cream px-5 py-24 sm:py-32">
@@ -185,23 +188,30 @@ function Couple() {
         <div className="mt-12 grid gap-10 sm:grid-cols-2 sm:gap-16">
           {portraits.map((p, i) => (
             <Reveal key={p.name} delay={i * 150} className="text-center">
-              {/* Cadre photo — remplacer par une vraie image plus tard */}
               <div className="group relative mx-auto aspect-[4/5] w-full max-w-xs overflow-hidden rounded-t-full border border-gold/40 bg-gradient-to-b from-orange/12 to-orange/8">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="font-display text-8xl text-orange/25">
-                    {p.name[0]}
-                  </span>
-                </div>
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-orange/15 to-transparent py-4">
-                  <span className="text-[0.65rem] uppercase tracking-wide-sm text-orange/50">
-                    Photo à venir
-                  </span>
-                </div>
+                {p.photo ? (
+                  <Image
+                    src={p.photo}
+                    alt={p.name}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    sizes="(max-width: 640px) 80vw, 320px"
+                  />
+                ) : (
+                  <>
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <span className="font-display text-8xl text-orange/25">{p.name[0]}</span>
+                    </div>
+                    <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-orange/15 to-transparent py-4">
+                      <span className="text-[0.65rem] uppercase tracking-wide-sm text-orange/50">
+                        Photo à venir
+                      </span>
+                    </div>
+                  </>
+                )}
               </div>
               <h3 className="mt-6 font-display text-3xl text-orange">{p.name}</h3>
-              <p className="mt-1 text-xs uppercase tracking-wide-sm text-ink-soft">
-                {p.family}
-              </p>
+              <p className="mt-1 text-xs uppercase tracking-wide-sm text-ink-soft">{p.family}</p>
             </Reveal>
           ))}
         </div>
@@ -281,39 +291,50 @@ function Row({ label, children }: { label: string; children: React.ReactNode }) 
 }
 
 /* ───────────────────────────── GALERIE ───────────────────────────── */
-function Gallery() {
+async function Gallery() {
+  const photos = await getGalleryPhotos();
+  const hasPhotos = photos.length > 0;
   return (
     <section id="galerie" className="relative overflow-hidden bg-ivory px-5 py-24 sm:py-32">
       <MotifMudcloth />
       <div className="relative z-10 mx-auto max-w-5xl">
         <Reveal className="text-center">
           <Eyebrow>Souvenirs</Eyebrow>
-          <h2 className="mt-2 font-display text-4xl text-orange sm:text-5xl">
-            Galerie
-          </h2>
-          <p className="mx-auto mt-4 max-w-md text-sm text-ink-soft">
-            Quelques-uns de nos plus beaux moments — les photos seront ajoutées
-            très bientôt.
-          </p>
+          <h2 className="mt-2 font-display text-4xl text-orange sm:text-5xl">Galerie</h2>
+          {!hasPhotos && (
+            <p className="mx-auto mt-4 max-w-md text-sm text-ink-soft">
+              Quelques-uns de nos plus beaux moments — les photos seront ajoutées très bientôt.
+            </p>
+          )}
           <Diamond />
         </Reveal>
 
         <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <Reveal
-              key={i}
-              delay={i * 80}
-              className={i % 5 === 0 ? "col-span-2 sm:col-span-1" : ""}
-            >
-              <div className="flex aspect-square items-center justify-center rounded-xl border border-gold/30 bg-gradient-to-br from-cream to-sand/60">
-                <svg viewBox="0 0 24 24" className="h-9 w-9 text-orange/25" fill="none" stroke="currentColor" strokeWidth="1.2">
-                  <rect x="3" y="5" width="18" height="14" rx="2" />
-                  <circle cx="9" cy="10" r="1.6" />
-                  <path strokeLinecap="round" strokeLinejoin="round" d="m4 18 5-5 4 4 3-3 4 4" />
-                </svg>
-              </div>
-            </Reveal>
-          ))}
+          {hasPhotos
+            ? photos.map((url, i) => (
+                <Reveal key={url} delay={i * 80} className={i % 5 === 0 ? "col-span-2 sm:col-span-1" : ""}>
+                  <div className="relative aspect-square overflow-hidden rounded-xl border border-gold/30">
+                    <Image
+                      src={url}
+                      alt={`Photo ${i + 1}`}
+                      fill
+                      className="object-cover transition-transform duration-500 hover:scale-105"
+                      sizes="(max-width: 640px) 50vw, 33vw"
+                    />
+                  </div>
+                </Reveal>
+              ))
+            : Array.from({ length: 6 }).map((_, i) => (
+                <Reveal key={i} delay={i * 80} className={i % 5 === 0 ? "col-span-2 sm:col-span-1" : ""}>
+                  <div className="flex aspect-square items-center justify-center rounded-xl border border-gold/30 bg-gradient-to-br from-cream to-sand/60">
+                    <svg viewBox="0 0 24 24" className="h-9 w-9 text-orange/25" fill="none" stroke="currentColor" strokeWidth="1.2">
+                      <rect x="3" y="5" width="18" height="14" rx="2" />
+                      <circle cx="9" cy="10" r="1.6" />
+                      <path strokeLinecap="round" strokeLinejoin="round" d="m4 18 5-5 4 4 3-3 4 4" />
+                    </svg>
+                  </div>
+                </Reveal>
+              ))}
         </div>
       </div>
     </section>
