@@ -17,7 +17,8 @@ const INK         = "#2d1307";
 const INK_SOFT    = "#7a5242";
 
 const W = 1080;
-const H = 1528;
+const H = 1920; /* 9:16 */
+const R = 80;   /* border-radius */
 
 /* ── Frise kente — SVG pleine largeur ── */
 function kenteBandUri(w: number, h: number): string {
@@ -33,14 +34,14 @@ function kenteBandUri(w: number, h: number): string {
   return `data:image/svg+xml,${encodeURIComponent(svg)}`;
 }
 
-/* ── Motif mudcloth — fond ivoire texturé ── */
+/* ── Motif mudcloth — grille SVG inline (pas de <pattern>, compatible satori) ── */
 function mudclothUri(): string {
-  const s = 40;
+  const s = 80;
   let cells = "";
   for (let y = 0; y < H; y += s)
     for (let x = 0; x < W; x += s)
-      cells += `<rect x="${x+10}" y="${y+10}" width="${s-20}" height="${s-20}" stroke="${SAND}" stroke-width="0.6" fill="none" opacity="0.25"/>`;
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}"><rect width="${W}" height="${H}" fill="${IVORY}"/>${cells}</svg>`;
+      cells += `<rect x="${x+20}" y="${y+20}" width="${s-40}" height="${s-40}" stroke="${SAND}" stroke-width="0.6" fill="none" opacity="0.22"/>`;
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}">${cells}</svg>`;
   return `data:image/svg+xml,${encodeURIComponent(svg)}`;
 }
 
@@ -158,14 +159,21 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
 
   const image = new ImageResponse(
     (
-      <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", backgroundColor: IVORY, position: "relative" }}>
-
-        {/* Fond mudcloth */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={mud} width={W} height={H} alt="" style={{ position: "absolute", top: 0, left: 0 }} />
+      /* Transparent root so PNG corners are empty; card is the non-root child that gets clipped */
+      <div style={{ width: W, height: H, display: "flex" }}>
+      <div style={{
+        width: W, height: H,
+        display: "flex", flexDirection: "column",
+        backgroundColor: IVORY,
+        backgroundImage: `url(${mud})`,
+        backgroundSize: `${W}px ${H}px`,
+        borderRadius: R,
+        overflow: "hidden",
+        position: "relative",
+      }}>
 
         {/* Bordure intérieure décorative */}
-        <div style={{ position: "absolute", top: 28, left: 28, right: 28, bottom: 28, border: `1.5px solid ${SAND}55`, borderRadius: 0, display: "flex" }} />
+        <div style={{ position: "absolute", top: 32, left: 32, right: 32, bottom: 32, border: `1.5px solid ${SAND}55`, borderRadius: R - 16, display: "flex" }} />
 
         {/* ── Entête ── */}
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", position: "relative", zIndex: 2 }}>
@@ -186,7 +194,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
         </div>
 
         {/* ── Corps ── */}
-        <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", padding: "0 90px 60px", position: "relative", zIndex: 2 }}>
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", padding: "0 90px 90px", position: "relative", zIndex: 2 }}>
 
           {/* Branches d'olivier latérales */}
           <div style={{ position: "absolute", left: 10, top: 0, display: "flex", opacity: 0.7 }}>
@@ -211,7 +219,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
           </div>
 
           {/* Script d'invitation */}
-          <div style={{ display: "flex", fontFamily: "Script", fontSize: 72, color: ORANGE_LIGHT, marginBottom: 4 }}>
+          <div style={{ display: "flex", fontFamily: "Script", fontSize: 72, color: ORANGE_LIGHT, marginBottom: 8, marginTop: 16 }}>
             {convie}
           </div>
 
@@ -221,7 +229,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
           </div>
 
           {/* MotifDivider */}
-          <div style={{ display: "flex", margin: "32px 0 24px" }}>
+          <div style={{ display: "flex", margin: "40px 0 28px" }}>
             {divider}
           </div>
 
@@ -242,7 +250,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
           </div>
 
           {/* Séparateur étoile + filets */}
-          <div style={{ display: "flex", alignItems: "center", gap: 24, margin: "32px 0 12px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 24, margin: "44px 0 16px" }}>
             <div style={{ display: "flex", width: 120, height: 1, backgroundColor: SAND, opacity: 0.6 }} />
             {star}
             <div style={{ display: "flex", width: 120, height: 1, backgroundColor: SAND, opacity: 0.6 }} />
@@ -259,7 +267,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
           </div>
 
           {/* QR code */}
-          <div style={{ display: "flex", backgroundColor: CREAM, borderRadius: 28, padding: 24, marginTop: 44, border: `1.5px solid ${SAND}88` }}>
+          <div style={{ display: "flex", backgroundColor: CREAM, borderRadius: 28, padding: 24, marginTop: 56, border: `1.5px solid ${SAND}88` }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={qr} width={320} height={320} alt="QR code" />
           </div>
@@ -275,7 +283,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
           </div>
 
           {/* Accent botanique bas — inversé */}
-          <div style={{ display: "flex", marginTop: 40, transform: "scaleY(-1)" }}>
+          <div style={{ display: "flex", marginTop: 56, transform: "scaleY(-1)" }}>
             {botanical}
           </div>
 
@@ -285,6 +293,15 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={kente} width={W} height={36} alt="" style={{ display: "flex", flexShrink: 0, position: "relative", zIndex: 2 }} />
 
+        {/* ── Coins arrondis — wedges ivoire sur les 4 coins (satori ne supporte pas overflow:hidden sur img) ── */}
+        <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} style={{ position: "absolute", top: 0, left: 0, zIndex: 200, display: "flex" }}>
+          <path d={`M0,0 L${R},0 A${R},${R} 0 0,0 0,${R} Z`}                     fill={IVORY}/>
+          <path d={`M${W},0 L${W-R},0 A${R},${R} 0 0,1 ${W},${R} Z`}             fill={IVORY}/>
+          <path d={`M0,${H} L0,${H-R} A${R},${R} 0 0,1 ${R},${H} Z`}             fill={IVORY}/>
+          <path d={`M${W},${H} L${W},${H-R} A${R},${R} 0 0,0 ${W-R},${H} Z`}     fill={IVORY}/>
+        </svg>
+
+      </div>
       </div>
     ),
     { width: W, height: H, fonts: fonts.length ? fonts : undefined }
