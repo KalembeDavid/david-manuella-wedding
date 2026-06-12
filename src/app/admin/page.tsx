@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import jsQR from "jsqr";
 import Papa from "papaparse";
-import { wedding, monogram } from "@/lib/wedding";
+import { wedding } from "@/lib/wedding";
 import type { Guest } from "@/lib/supabaseAdmin";
 import { KenteBand } from "@/components/Motifs";
 
@@ -948,7 +948,6 @@ function Shell({ children, wide = false }: { children: React.ReactNode; wide?: b
     <main className="min-h-screen bg-ivory">
       <KenteBand />
       <div className={`mx-auto px-5 py-12 ${wide ? "max-w-5xl" : "max-w-2xl pt-24"}`}>
-        <p className="mb-8 text-center font-display text-2xl tracking-wide-sm text-orange">{monogram}</p>
         {children}
       </div>
     </main>

@@ -21,10 +21,10 @@ export const wedding = {
   },
 
   // Date et heure de la célébration (format ISO : AAAA-MM-JJTHH:MM:SS)
-  date: "2026-06-20T15:00:00",
+  date: "2026-06-20T16:00:00",
   dateLabel: "20 Juin 2026",
   dayLabel: "Samedi",
-  timeLabel: "15h00",
+  timeLabel: "16h00",
 
   // Lieu
   city: "Kolwezi",
@@ -48,7 +48,7 @@ export const wedding = {
     title: "Mariage Coutumier",
     subtitle: "L'union de nos deux familles selon la tradition",
     date: "Samedi 20 Juin 2026",
-    time: "15h00" as string | null,
+    time: "16h00" as string | null,
     venue: "Katebi",
     city: "Kolwezi",
   },
@@ -70,10 +70,10 @@ export const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encode
   wedding.mapsQuery
 )}`;
 
-/** Lien « Ajouter à Google Agenda » (cérémonie de 15h00 à 21h00, heure de Kolwezi) */
+/** Lien « Ajouter à Google Agenda » (cérémonie de 16h00 à 22h00, heure de Kolwezi) */
 export const calendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(
   `Mariage coutumier — ${wedding.groom.firstName} & ${wedding.bride.firstName}`
-)}&dates=20260620T150000/20260620T210000&ctz=Africa/Lubumbashi&location=${encodeURIComponent(
+)}&dates=20260620T160000/20260620T220000&ctz=Africa/Lubumbashi&location=${encodeURIComponent(
   `${wedding.venue}, ${wedding.city}`
 )}&details=${encodeURIComponent(
   `Célébration du mariage coutumier de ${wedding.groom.firstName} & ${wedding.bride.firstName}.`

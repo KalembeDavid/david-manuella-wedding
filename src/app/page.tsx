@@ -45,37 +45,21 @@ async function Hero() {
       {/* Colonne de motifs africains — bord gauche */}
       <AfricanMotifColumn className="pointer-events-none absolute left-0 top-0 z-10 h-full w-9 text-gold/50 sm:w-11" />
 
-      {/* Coup de pinceau mobile */}
-      <div className="pointer-events-none absolute right-0 top-0 z-0 h-full w-[62%] overflow-hidden lg:hidden">
-        <HeroBrushStroke className="absolute inset-0 h-full w-full text-gold/35" />
-      </div>
-
-      {/* Photo héro mobile — container plus large pour loger les deux visages */}
+      {/* Photo héro mobile — droite, même style que desktop */}
       {heroPhoto && (
         <div
-          className="pointer-events-none absolute right-0 top-0 z-0 h-[72%] w-[76%] overflow-hidden lg:hidden"
+          className="pointer-events-none absolute right-0 top-0 z-0 h-full w-[65%] lg:hidden"
           style={{
-            maskImage: [
-              "linear-gradient(to right,",
-              "  transparent 0%,",
-              "  rgba(0,0,0,0.06) 12%,",
-              "  rgba(0,0,0,0.28) 24%,",
-              "  rgba(0,0,0,0.62) 36%,",
-              "  rgba(0,0,0,0.88) 48%,",
-              "  black 58%,",
-              "  black 86%,",
-              "  transparent 100%",
-              ")",
-            ].join(""),
+            maskImage: "linear-gradient(to right, transparent 0%, rgba(0,0,0,0.3) 20%, rgba(0,0,0,0.75) 42%, black 62%, black 100%)",
           }}
         >
           <Image
             src={heroPhoto}
-            alt={`${wedding.groom.firstName} & ${wedding.bride.firstName}`}
+            alt=""
             fill
             className="object-cover"
-            style={{ objectPosition: "55% 12%" }}
-            sizes="76vw"
+            style={{ objectPosition: "30% 0%" }}
+            sizes="68vw"
           />
         </div>
       )}
@@ -141,7 +125,7 @@ async function Hero() {
             style={{ animationDelay: "300ms" }}
           >
             <a href="#rsvp" className="btn-gold">
-              Un mot pour le couple
+              Un mot pour nous
             </a>
             <a href="#ceremonies" className="btn-outline-dark">
               Le grand jour
@@ -697,7 +681,7 @@ function Rsvp() {
             Un mot pour les mariés
           </h2>
           <p className="mx-auto mt-4 max-w-md text-sm leading-relaxed text-cream/70">
-            Confirmez votre venue et laissez-nous quelques mots — ils seront lus
+            Laissez-nous quelques mots — ils seront lus
             et précieusement gardés.
           </p>
           <MotifDivider />
