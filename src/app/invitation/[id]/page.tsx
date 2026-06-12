@@ -103,7 +103,7 @@ export default async function InvitationPage({
 
             {/* Script d'invitation */}
             <p className="font-script text-[1.75rem] leading-tight text-orange-light">
-              Vous êtes convié(e)
+              {guest.party_size > 1 ? "Vous êtes conviés" : "Vous êtes convié(e)"}
             </p>
 
             {/* Nom de l'invité */}
@@ -181,6 +181,7 @@ export default async function InvitationPage({
         <InvitationActions
           url={invitationUrl}
           name={guest.full_name}
+          partySize={guest.party_size}
           downloadUrl={`/api/invitation-image/${guest.id}?download=1`}
         />
 
